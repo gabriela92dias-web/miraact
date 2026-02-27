@@ -1,0 +1,45 @@
+---
+description: Proteção do grid do calendário — manter fidelidade ao tempo real
+globs: **/*Kanban*.html,**/Kanban*.html
+alwaysApply: false
+---
+
+# Grid do Calendário — Regra de Proteção
+
+O grid do cronograma/calendário é **inviolável** em relação ao tempo real. Qualquer alteração de layout ou CSS **não pode** mudar a estrutura temporal.
+
+## Invariantes que NUNCA podem ser alteradas
+
+### 1. Constantes temporais
+- `SEMANAS_POR_MES = 4` — 4 semanas por mês (modelo fixo)
+- `TOTAL_SEMANAS = 48` — ano = 48 semanas
+- `DIAS_MES = [31,28,31,30,31,30,31,31,30,31,30,31]` — dias por mês (ano 2026 não bissexto)
+- Ano fixo: **2026**
+
+### 2. Função `diaAbsoluto(mes, dia)`
+Converte mês (0–11) e dia (1–31) em dia absoluto do ano (0–364). **Não alterar a lógica.**
+
+### 3. Estrutura do grid por vista
+| Vista | Colunas | Significado |
+|-------|---------|-------------|
+| Ano / vista-meses | 12 | 1 coluna = 1 mês |
+| Semanas / vista-semanas | 48 | 1 coluna = 1 semana |
+| Dia (1/3 dias) | 7 ou 14 | 1 coluna = 1 dia |
+| Vista-ano-etapas | 140px + 12 | Label + 12 meses |
+
+### 4. Posicionamento de barras
+- Barras são posicionadas em **%** baseado em `ini/48` ou `ini/7` (semanas ou dias)
+- `taskSpanDias(g)` usa `inicioSemana * 7` e `duracaoSemanas * 7` para conversão dias↔semanas
+- `sincronizarMesDeSemana` e `sincronizarSemanaDeMes` mantêm `inicioMes`/`duracaoMeses` ↔ `inicioSemana`/`duracaoSemanas`
+
+### 5. O que NUNCA fazer em alterações de layout
+- ❌ Mudar número de colunas do grid (12 meses, 48 semanas, 7 dias)
+- ❌ Alterar `diaAbsoluto`, `DIAS_MES`, `SEMANAS_POR_MES`
+- ❌ Trocar fórmulas de `left`/`width` em % (ex: `(ini/48)*100`, `(dur/48)*100`)
+- ❌ Adicionar "colunas decorativas" que quebrem a correspondência 1 coluna = 1 unidade de tempo
+
+### 6. O que PODE ser alterado
+- ✅ Cores, bordas, padding, font-size
+- ✅ Largura mínima (min-width)
+- ✅ Adicionar coluna fixa de labels à ESQUERDA (ex: 140px para etapas) — o timeline continua 12/48/7 colunas
+- ✅ Espaçamento entre linhas, altura das barras

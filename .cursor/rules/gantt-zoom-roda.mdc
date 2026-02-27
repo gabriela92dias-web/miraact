@@ -1,0 +1,20 @@
+---
+description: Zoom do Gantt — roda do mouse, sem botões
+globs: **/app.js,**/integracao-funcional.html
+alwaysApply: false
+---
+
+# Zoom do Gantt (vista anual)
+
+## Regra principal
+
+- **Zoom = roda do mouse** (scroll wheel) sobre a área do timeline.
+- **Não usar botões de zoom** — nenhum botão +/− ou de nível deve ser exibido.
+- **Deslizar horizontal** = Segurar Espaço e arrastar (em qualquer zona do timeline).
+- **Aceder a outros períodos** = Espaço + arrastar permite navegar entre períodos não exibidos nos zooms padrões (ex.: 1º sem → 2º sem, 1º trim → 2º trim).
+
+## Níveis de zoom (ordem)
+
+Ano → Semestre → Trimestre
+
+Cada nível mostra apenas o período correspondente (ex.: semestre = 1 semestre; trimestre = 1 trimestre).

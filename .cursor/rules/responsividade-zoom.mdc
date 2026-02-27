@@ -1,0 +1,34 @@
+---
+description: Regras gerais de responsividade ao zoom do navegador (Ctrl+rolagem)
+globs: **/*.html
+alwaysApply: true
+---
+
+# Responsividade ao zoom do navegador
+
+O usuário usa **Ctrl + rolagem do mouse** para zoom in/out. Não criar controles de zoom próprios no documento.
+
+## Limite de zoom da tela inteira
+
+O zoom máximo da **tela inteira** (header, menu lateral, conteúdo, painel de etapas) é o ponto em que tudo permanece legível e funcional. Acima disso, se o usuário quiser mais zoom, deve zoomar apenas a **parte interna** do documento — ou seja, a área de conteúdo central (calendário, agenda, etc.), **sem** o header, menu lateral e painel de etapas. O shell da interface fica fixo; só o conteúdo interno escala.
+
+## Padrões gerais do HTML
+
+1. **Unidades relativas**: Usar `rem` e `%` em vez de `px` para fontes, padding, gaps e dimensões que devem escalar com o zoom.
+2. **html { font-size: 16px }**: Base fixa; `rem` escala automaticamente com o zoom do navegador.
+3. **Viewport**: `<meta name="viewport" content="width=device-width, initial-scale=1.0">` — sem limitar minimum/maximum scale.
+4. **Layout flexível**: `min-width: 0` em flex children; `flex-wrap` onde fizer sentido; evitar `width` fixo em px.
+5. **Evitar**: `position: fixed` com px; `transform` que quebra alinhamento; `height` em px em containers que precisam acompanhar o conteúdo.
+
+## Vista Dia (timegrid + turnos)
+
+- Coluna de turnos e grade de horas: manter no mesmo fluxo flex; ambos escalam com zoom.
+- Dimensões em rem: `min-height`, `width` da coluna, `padding`.
+- Proporções flex (7:6:4): preservam a relação Manhã/Tarde/Noite em qualquer zoom.
+
+## Checklist em alterações
+
+- [ ] Fontes e espaçamentos em rem ou %?
+- [ ] Evitou px em dimensões críticas de layout?
+- [ ] Elementos que precisam alinhar estão no mesmo container (escalam juntos)?
+- [ ] Testou em 75%, 100%, 125%, 150% de zoom (Ctrl+scroll)?

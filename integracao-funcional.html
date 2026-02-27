@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Febre de Arte — Planejamento 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar v6 injeta o CSS via JS; não existe index.global.min.css no pacote -->
+    <link href="estilos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    <!-- Locale pt-br está em @fullcalendar/core (o bundle principal não inclui locales) -->
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/pt-br.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script>moment.locale('pt-br');</script>
+    <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+</head>
+<body>
+    <a href="#layout-main" class="skip-link">Saltar para o conteúdo</a>
+    <div id="app-zoom-wrap">
+    <header class="header">
+        <h1>Febre de Arte <span class="header-ano">2026</span></h1>
+    </header>
+
+    <div class="layout">
+        <nav class="nav-sidebar" id="nav-sidebar">
+            <button type="button" class="nav-sidebar-toggle" id="nav-sidebar-toggle" title="Recolher menu"><span class="nav-toggle-icon">◀</span></button>
+            <div class="abas">
+                <button type="button" class="aba" data-painel="home"><span class="aba-icone">⌂</span><span class="aba-texto">Home</span></button>
+                <button type="button" class="aba ativa" data-painel="calendario"><span class="aba-icone">📅</span><span class="aba-texto">Cronograma</span></button>
+                <button type="button" class="aba" data-painel="biblioteca"><span class="aba-icone">📚</span><span class="aba-texto">Biblioteca</span></button>
+            </div>
+        </nav>
+        <div class="layout-main" id="layout-main">
+            <div class="layout-painel" id="layout-painel">
+            <div id="conteudo-zoom-wrap">
+    <div id="painel-home" class="painel">
+        <div class="vista-nav">
+            <button type="button" class="vista-nav-btn" id="mini-cal-prev" title="Mês anterior">‹</button>
+            <span id="mini-cal-mes-ano" class="vista-titulo">Janeiro 2026</span>
+            <button type="button" class="vista-nav-btn" id="mini-cal-next" title="Próximo mês">›</button>
+        </div>
+        <div id="mini-calendario-home" class="mini-cal"></div>
+        <div id="home-conteudo" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:24px;"></div>
+    </div>
+
+    <div id="painel-calendario" class="painel ativo">
+        <div class="cronograma-vistas">
+            <div class="cronograma-vistas-tabs">
+                <button type="button" class="cronograma-vista-btn ativa" data-vista="mes">Mês</button>
+                <button type="button" class="cronograma-vista-btn" data-vista="semana">Semana</button>
+                <button type="button" class="cronograma-vista-btn" data-vista="dia">Dia</button>
+                <button type="button" class="cronograma-vista-btn" data-vista="anual">Anual</button>
+            </div>
+            <span style="color:var(--text-dim);font-size:0.85rem">|</span>
+            <button type="button" class="cronograma-vista-btn" data-vista="lista">Lista</button>
+            <button type="button" class="cronograma-vista-btn" data-vista="etapas">Etapas</button>
+        </div>
+        <div class="filtros-bar">
+            <label for="filtro-busca" class="visually-hidden">Buscar</label>
+            <input type="text" id="filtro-busca" placeholder="Buscar..." style="max-width:180px" aria-label="Buscar">
+            <label for="filtro-etapa" class="visually-hidden">Etapa</label>
+            <select id="filtro-etapa" aria-label="Filtrar por etapa"><option value="">Etapa</option><option value="planejamento">Planejamento</option><option value="producao">Produção</option><option value="execucao">Execução</option><option value="pos-producao">Pós</option></select>
+            <label for="filtro-status" class="visually-hidden">Status</label>
+            <select id="filtro-status" aria-label="Filtrar por status"><option value="">Status</option><option value="nao-iniciada">Não iniciada</option><option value="em-andamento">Em andamento</option><option value="concluida">Concluída</option><option value="pausada">Pausada</option><option value="cancelada">Cancelada</option></select>
+            <label for="filtro-responsavel" class="visually-hidden">Responsável</label>
+            <select id="filtro-responsavel" aria-label="Filtrar por responsável"><option value="">Responsável</option></select>
+            <button type="button" class="modal-btn btn-add" onclick="abrirModalAdicionarTarefa()">+ Adicionar tarefa</button>
+        </div>
+        <div id="cronograma-nav" class="vista-nav">
+            <button type="button" class="vista-nav-btn" id="cron-nav-prev" title="Anterior">‹</button>
+            <span id="cronograma-titulo" class="vista-titulo"></span>
+            <button type="button" class="vista-nav-btn" id="cron-nav-next" title="Próximo">›</button>
+        </div>
+        <div id="cronograma-calendario">
+            <div class="dia-timegrid-wrap" id="cronograma-dia-wrap">
+                <div id="cronograma-multidia-bar" class="multidia-bar-container"></div>
+                <div class="dia-timegrid-body">
+                <div id="cronograma-multidia-gap" class="multidia-gap"></div>
+                <div class="turno-coluna" id="turno-coluna-cronograma" style="display:none"><div class="turno-bloco turno-manha"><span>Manhã 5–12h</span></div><div class="turno-bloco turno-tarde"><span>Tarde 12–18h</span></div><div class="turno-bloco turno-noite"><span>Noite 18–22h</span></div></div>
+                <div class="dia-cal-wrap"><div id="cronograma-multidia-stripe" class="multidia-stripe-layer"></div><div id="calendario"></div></div>
+                </div>
+            </div>
+            <div class="info">+ em cada dia para adicionar. Duplo-clique em dia para agenda. Duplo-clique em evento para detalhes.</div>
+        </div>
+        <div id="cronograma-semana" class="painel" style="display:none">
+            <div id="semana-grid"></div>
+            <div class="info">Vista semanal: 3 turnos — Manhã (5–12h), Tarde (12–18h), Noite (18–22h). + em cada turno adiciona. Duplo-clique em dia para agenda. Duplo-clique em tarefa para detalhes.</div>
+        </div>
+        <div id="cronograma-anual" class="painel" style="display:none">
+            <div class="timeline-anual-layout">
+                <aside class="timeline-etapas-sidebar" id="timeline-etapas-sidebar" aria-label="Etapas">
+                    <button type="button" class="timeline-etapas-toggle" id="timeline-etapas-toggle" onclick="toggleTimelineEtapasSidebar()" title="Ocultar etapas">◀</button>
+                    <div class="timeline-etapas-content">
+                        <span class="timeline-etapas-title">Etapas</span>
+                    <button type="button" class="timeline-etapa-btn ativa" data-etapa="" onclick="filtrarGanttPorEtapa('')">Todas</button>
+                    <button type="button" class="timeline-etapa-btn" data-etapa="planejamento" onclick="filtrarGanttPorEtapa('planejamento')">Planejamento</button>
+                    <button type="button" class="timeline-etapa-btn" data-etapa="producao" onclick="filtrarGanttPorEtapa('producao')">Produção</button>
+                    <button type="button" class="timeline-etapa-btn" data-etapa="execucao" onclick="filtrarGanttPorEtapa('execucao')">Execução</button>
+                    <button type="button" class="timeline-etapa-btn" data-etapa="pos-producao" onclick="filtrarGanttPorEtapa('pos-producao')">Pós-produção</button>
+                    </div>
+                </aside>
+                <div class="timeline-wrapper" id="timeline-pan-area">
+                    <button type="button" class="gantt-cols-toggle" id="gantt-cols-toggle" onclick="toggleGanttColsSidebar()" title="Ocultar coluna Tarefa">◀</button>
+                    <div id="timeline-container"></div>
+                    <span class="gantt-overlay-hint">Roda = zoom · <kbd>Espaço</kbd>+arrastar = deslizar ou aceder a outros períodos</span>
+                    <div class="gantt-overlay gantt-overlay-detail" id="gantt-detail-overlay" aria-label="Detalhes da tarefa">
+                        <span class="gantt-overlay-detail-title">Tarefa selecionada</span>
+                        <div id="timeline-task-detail" class="timeline-task-detail">
+                            <p class="timeline-task-detail-empty">Clique numa tarefa para ver detalhes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">Vista anual. <strong>Coluna</strong> Tarefa: botão ◀ no canto para ocultar e liberar espaço. <strong>+ no topo</strong> = nova tarefa principal; <strong>▼+ na linha</strong> = nova subtarefa (▼ é indicador). <strong>Navegar:</strong> roda = deslizar; Ctrl+roda = zoom; Espaço + arrastar = mover.</div>
+        </div>
+        <div id="cronograma-lista" class="painel" style="display:none"></div>
+        <div id="cronograma-etapas" class="painel" style="display:none"></div>
+    </div>
+
+    <div id="painel-agenda" class="painel">
+        <div class="vista-toolbar">
+            <div class="vista-tabs"><button type="button" class="vista-btn ativa" id="agenda-vista-dia" onclick="mostrarVistaAgenda('dia')">Dia</button><button type="button" class="vista-btn" id="agenda-vista-semana" onclick="mostrarVistaAgenda('semana')">Semana</button></div>
+        </div>
+        <div id="agenda-nav" class="vista-nav">
+            <button type="button" class="vista-nav-btn" id="agenda-nav-prev" title="Anterior">‹</button>
+            <span id="agenda-titulo" class="vista-titulo"></span>
+            <button type="button" class="vista-nav-btn" id="agenda-nav-next" title="Próximo">›</button>
+        </div>
+        <div id="agenda-diaria-wrap" style="display:block">
+            <div class="dia-timegrid-wrap">
+                <div id="agenda-multidia-bar" class="multidia-bar-container"></div>
+                <div class="dia-timegrid-body">
+                <div id="agenda-multidia-gap" class="multidia-gap"></div>
+                <div class="turno-coluna"><div class="turno-bloco turno-manha"><span>Manhã 5–12h</span></div><div class="turno-bloco turno-tarde"><span>Tarde 12–18h</span></div><div class="turno-bloco turno-noite"><span>Noite 18–22h</span></div></div>
+                <div class="dia-cal-wrap"><div id="agenda-multidia-stripe" class="multidia-stripe-layer"></div><div id="agenda-diaria"></div></div>
+                </div>
+            </div>
+        </div>
+        <div id="agenda-semana-wrap" style="display:none">
+            <div id="semana-grid-agenda"></div>
+        </div>
+        <div class="info" id="agenda-info">Vista diária: horários 5h–22h. Arraste para definir hora, redimensione para duração.</div>
+    </div>
+
+    <div id="painel-biblioteca" class="painel">
+        <div class="vista-toolbar"><span class="vista-titulo" style="min-width:auto">Biblioteca</span><label for="filtro-bib-busca" class="visually-hidden">Buscar na biblioteca</label><input type="text" id="filtro-bib-busca" placeholder="Buscar..." aria-label="Buscar na biblioteca" style="flex:1;max-width:320px;padding:8px 12px;background:var(--glass-dark-subtle);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem"></div>
+        <div id="lista-biblioteca" style="margin-top:var(--vista-gap)"></div>
+    </div>
+            </div></div>
+            <aside class="painel-etapas">
+                <div class="painel-etapas-title">Etapas · Cronograma</div>
+                <div id="lista-etapas"></div>
+            </aside>
+        </div>
+    </div>
+    </div><!-- /app-zoom-wrap -->
+
+    <div id="context-menu" class="context-menu">
+        <button type="button" class="context-menu-item" data-action="add-task">+ Adicionar nova tarefa</button>
+        <button type="button" class="context-menu-item" data-action="add-subtask" style="display:none">+ Criar subtarefa aqui</button>
+        <button type="button" class="context-menu-item" data-action="open-details" style="display:none">Abrir detalhes</button>
+    </div>
+
+    <div id="modal-adicionar-tarefa" class="modal-overlay" onclick="if(event.target===this)fecharModalAdicionarTarefa()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h2 id="add-tarefa-titulo">Adicionar tarefa</h2>
+            <div class="modal-campo" id="add-tarefa-parent-wrap"><label for="add-tarefa-parent">Tarefa principal</label><select id="add-tarefa-parent"><option value="">— Nova tarefa (sem subtarefas) —</option></select><span class="modal-hint" id="add-tarefa-subtask-hint">Cada subtarefa concluída aumenta a % da barra da tarefa principal.</span></div>
+            <div class="modal-campo"><label for="add-tarefa-data">Data de início</label><input type="date" id="add-tarefa-data" min="2024-01-01" max="2030-12-31"></div>
+            <div class="modal-campo"><label for="add-tarefa-select">Tarefa (da biblioteca)</label><div><select id="add-tarefa-select"></select><span id="add-tarefa-aviso" style="display:none;font-size:0.8rem;color:var(--text-dim);margin-left:8px">Nenhuma tarefa disponível</span></div></div>
+            <div style="display:flex;gap:8px;margin-top:16px">
+                <button class="modal-btn" id="btn-add-tarefa-confirmar" onclick="criarTarefaDoModal()">Adicionar</button>
+                <button class="modal-btn secundario" onclick="fecharModalAdicionarTarefa()" style="background:var(--glass-dark-subtle)">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-relatorio" class="modal-overlay">
+        <div class="modal" style="max-width:560px">
+            <h2 id="rel-titulo">Tarefa</h2>
+            <div class="modal-secao" style="margin-bottom:16px"><h3 style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px">Execução</h3>
+            <div class="modal-campo"><label for="rel-responsavel">Responsável</label><input type="text" id="rel-responsavel" placeholder="Quem vai fazer"></div>
+            <div class="modal-campo"><label for="rel-status">Status</label><select id="rel-status"></select></div>
+            <div class="modal-campo"><label for="rel-milestone" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="rel-milestone" aria-label="Marco (milestone)"> Marco (milestone)</label></div>
+            <div class="modal-campo"><label for="rel-prioridade">Prioridade</label><select id="rel-prioridade"><option value="baixa">Baixa</option><option value="media" selected>Média</option><option value="alta">Alta</option><option value="critica">Crítica</option></select></div>
+            <div class="modal-campo"><label for="rel-inicio-real">Data/hora início real</label><input type="datetime-local" id="rel-inicio-real"></div>
+            <div class="modal-campo"><label for="rel-duracao-horas">Duração (horas)</label><input type="number" id="rel-duracao-horas" min="0.5" max="24" step="0.5" placeholder="1"></div></div>
+            <div class="modal-secao" style="margin-bottom:16px"><h3 style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px">Detalhes</h3>
+            <div class="modal-campo"><label for="rel-prazo">Prazo previsto</label><input type="text" id="rel-prazo" placeholder="Ex: até 15/03"></div>
+            <div class="modal-campo"><label for="rel-riscos">Riscos</label><textarea id="rel-riscos" placeholder="O que pode atrasar"></textarea></div>
+            <div class="modal-campo"><label for="rel-dep-externas">Dependências externas</label><textarea id="rel-dep-externas" placeholder="Fornecedores, terceiros"></textarea></div>
+            <div class="modal-secao rel-dep-secao">
+                <h3 class="rel-dep-titulo"><span class="rel-dep-icone-titulo" aria-hidden="true"></span>Depende de (tarefas do cronograma)</h3>
+                <div id="rel-predecessoras" class="rel-dep-lista"></div>
+                <div class="rel-dep-add-row">
+                    <label for="rel-predecessora-add" class="visually-hidden">Adicionar tarefa da qual esta depende</label>
+                    <select id="rel-predecessora-add" class="rel-dep-select" aria-label="Adicionar dependência de outra tarefa">
+                        <option value="">— Adicionar dependência —</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-campo"><label for="rel-observacoes">Observações</label><textarea id="rel-observacoes" placeholder="Notas"></textarea></div></div>
+            <div class="modal-secao" style="margin-bottom:16px"><h3 style="font-size:0.8rem;color:var(--text-dim);margin-bottom:10px">Custos da tarefa</h3>
+            <div id="rel-custos" style="margin-bottom:8px"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+                <label for="rel-custo-desc" class="visually-hidden">Descrição do custo</label>
+                <input type="text" id="rel-custo-desc" placeholder="Descrição" aria-label="Descrição do custo" style="flex:1;min-width:120px;padding:8px 12px;background:var(--glass-dark-subtle);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+                <label for="rel-custo-valor" class="visually-hidden">Valor (R$)</label>
+                <input type="number" id="rel-custo-valor" placeholder="R$" step="0.01" aria-label="Valor em reais" style="width:90px;padding:8px 12px;background:var(--glass-dark-subtle);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+                <label for="rel-custo-cat" class="visually-hidden">Categoria do custo</label>
+                <select id="rel-custo-cat" aria-label="Categoria do custo" style="padding:8px 12px;background:var(--glass-dark-subtle);border:1px solid var(--border);border-radius:6px;color:var(--text)"><option value="infraestrutura">infraestrutura</option><option value="divulgação">divulgação</option><option value="pessoal">pessoal</option><option value="palestrantes">palestrantes</option><option value="operacao">operacao</option><option value="outro">outro</option></select>
+                <button class="modal-btn" onclick="adicionarCustoRelatorio()">+ Adicionar</button>
+            </div></div>
+            <button class="modal-btn" onclick="fecharModalRelatorio()">Fechar</button>
+        </div>
+    </div>
+
+    <script src="app.js?v=semana-drag" charset="UTF-8"></script>
+</body>
+</html>

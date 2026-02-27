@@ -1,0 +1,2280 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)file:///C:/Users/gabri/Planejamento_Evento_2026/Kanban_Evento_2026.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Febre de Arte — Planejamento 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', -apple-system, sans-serif; background: linear-gradient(160deg, #17181c 0%, #1e2026 50%, #17181c 100%); min-height: 100vh; color: #e2e4e8; padding: 20px 24px; }
+        .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .header-left { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        h1 { font-size: 1.4rem; font-weight: 600; margin: 0; color: #e2e4e8; }
+        h1 span { color: #a1a5ae; }
+        .header-stats { display: flex; align-items: center; gap: 20px; font-size: 0.85rem; }
+        .header-stat { display: flex; align-items: center; gap: 8px; }
+        .header-stat strong { color: #94a3b8; font-weight: 500; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .layout { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+        .painel-etapas { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; position: sticky; top: 20px; }
+        .painel-etapas-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 12px; }
+        .etapa-bloco { border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; border-left: 4px solid #6b7280; background: rgba(255,255,255,0.04); }
+        .etapa-bloco.planejamento { border-left-color: #6b7280; }
+        .etapa-bloco.producao { border-left-color: #9ca3af; }
+        .etapa-bloco.execucao { border-left-color: #d1d5db; }
+        .etapa-bloco.pos-producao { border-left-color: #e5e7eb; }
+        .etapa-titulo { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; color: #d4d4d8; }
+        .grupo { margin-bottom: 20px; }
+        .grupo-titulo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; margin-bottom: 10px; }
+        .card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; margin-bottom: 8px; cursor: grab; border-left: 4px solid #6b7280; display: flex; justify-content: space-between; align-items: center; }
+        .card.etapa-planejamento, .card.etapa-producao, .card.etapa-execucao, .card.etapa-pos-producao { background: rgba(255,255,255,0.05); }
+        .card:hover { background: rgba(255,255,255,0.08); }
+        .card .btn-relatorio { font-size: 0.7rem; padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #9ca3af; cursor: pointer; }
+        .abas { display: flex; gap: 2px; margin-bottom: 16px; flex-wrap: wrap; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 10px; width: fit-content; }
+        .aba { padding: 8px 14px; background: transparent; border: none; border-radius: 6px; cursor: pointer; font-size: 0.82rem; color: #9ca3af; }
+        .aba:hover { color: #e2e4e8; background: rgba(255,255,255,0.05); }
+        .aba.ativa { background: rgba(255,255,255,0.12); color: #e2e4e8; }
+        .calendario-wrapper { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; overflow: auto; max-height: calc(100vh - 180px); }
+        .painel-conteudo { display: none; }
+        .painel-conteudo.ativo { display: block; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.ativo { display: flex; }
+        .modal { background: #1a1d28; border-radius: 16px; max-width: 620px; width: 95%; max-height: 90vh; overflow-y: auto; padding: 24px; }
+        .modal h2 { font-size: 1.2rem; margin-bottom: 20px; }
+        .modal-secao { margin-bottom: 20px; }
+        .modal-secao h3 { font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase; }
+        .modal-campo { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: grid; grid-template-columns: 140px 1fr; gap: 12px; align-items: start; }
+        .modal-campo label { color: #94a3b8; font-size: 0.85rem; }
+        .modal-campo input, .modal-campo textarea, .modal-campo select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 8px 12px; color: #e8eaed; }
+        .modal-campo select { min-width: 140px; }
+        .modal-btn { padding: 10px 20px; background: #4b5563; border: none; border-radius: 8px; color: white; cursor: pointer; font-size: 0.9rem; margin-top: 8px; }
+        .modal-btn:hover { background: #6b7280; }
+        .modal-btn.secundario { background: rgba(255,255,255,0.1); }
+        .modal-fechar { float: right; background: none; border: none; color: #64748b; cursor: pointer; font-size: 1.2rem; }
+        .custo-item { display: flex; gap: 12px; align-items: center; padding: 10px; background: rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 8px; }
+        .custo-item.pago { opacity: 0.8; }
+
+        .gantt-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+        .gantt-vistas-principais { display: flex; gap: 2px; background: rgba(255,255,255,0.05); padding: 2px; border-radius: 8px; }
+        .gantt-vista-principal { padding: 8px 16px; font-size: 0.85rem; font-weight: 500; background: transparent; border: none; border-radius: 6px; color: #9ca3af; cursor: pointer; }
+        .gantt-vista-principal:hover { color: #e4e4e7; }
+        .gantt-vista-principal.ativa { background: rgba(255,255,255,0.12); color: #e4e4e7; }
+        .cronograma-conteudo { display: none; }
+        .cronograma-conteudo.ativo { display: block; }
+        .cronograma-gantt.ativo { display: block; }
+        .gantt-nav-opcoes { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .gantt-vistas { display: flex; gap: 2px; background: rgba(255,255,255,0.05); padding: 2px; border-radius: 8px; }
+        .gantt-vista-btn { padding: 6px 14px; font-size: 0.8rem; background: transparent; border: none; border-radius: 6px; color: #9ca3af; cursor: pointer; }
+        .gantt-vista-btn:hover { color: #e4e4e7; }
+        .gantt-vista-btn.ativa { background: rgba(255,255,255,0.12); color: #e4e4e7; }
+        .gantt-nav button:not(.gantt-vista-btn) { padding: 6px 10px; font-size: 0.8rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: #9ca3af; cursor: pointer; }
+        .gantt-nav button:not(.gantt-vista-btn):hover { background: rgba(255,255,255,0.1); color: #e4e4e7; }
+        .gantt-nav .gantt-nav-info { font-size: 0.78rem; color: #6b7280; margin-left: auto; }
+        .gantt-turno-legend { font-size: 0.65rem; color: #64748b; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.04); margin-right: 8px; }
+        .gantt-zoom-sep { color: rgba(255,255,255,0.2); margin: 0 4px; }
+        .gantt-zoom { display: flex; align-items: center; gap: 4px; }
+        .gantt-zoom button { width: 24px; height: 24px; padding: 0; font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; color: #9ca3af; cursor: pointer; }
+        .gantt-zoom button:hover { background: rgba(255,255,255,0.1); color: #e4e4e7; }
+        .gantt-zoom span { font-size: 0.75rem; color: #9ca3af; min-width: 36px; text-align: center; }
+        .gantt-container { overflow-x: auto; }
+        .gantt-grid { display: grid; grid-template-columns: 1fr; }
+        .gantt-grid.vista-meses { min-width: 960px; }
+        .gantt-grid.vista-semanas { min-width: 1920px; }
+        .gantt-grid.vista-dias { min-width: 560px; }
+        .gantt-grid.vista-dias .gantt-header { grid-template-columns: repeat(14, 1fr); }
+        .gantt-grid.vista-dias .gantt-row { grid-template-columns: repeat(14, 1fr); }
+        .gantt-grid.vista-dias .gantt-cell-barra { grid-template-columns: repeat(14, 1fr); }
+        .gantt-grid.vista-ano { min-width: 960px; }
+        .gantt-grid.vista-ano .gantt-header { grid-template-columns: repeat(12, 1fr); }
+        .gantt-grid.vista-ano .gantt-row-etapa { min-height: 48px; }
+        .gantt-grid.vista-ano .etapa-barra { font-size: 0.75rem; padding: 6px 8px; }
+        .gantt-grid.vista-ano .gantt-celula-semana { background-image: linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 25% 100%; background-position: 0 0; }
+        .gantt-grid.vista-ano .gantt-header-cell:nth-child(even):not(.agora):not(.evento) { background: rgba(255,255,255,0.06); }
+        .gantt-grid.vista-ano .gantt-celula-semana:nth-child(even) { background-color: rgba(255,255,255,0.02); }
+        .gantt-grid.vista-ano .gantt-celula-semana:nth-child(odd) { background-color: rgba(255,255,255,0.04); }
+        .gantt-grid.vista-ano .gantt-header-cell .vista-ano-semanas { display: block; font-size: 0.55rem; font-weight: 400; color: #64748b; margin-top: 2px; opacity: 0.9; }
+        .gantt-grid.vista-mes-single { min-width: 320px; }
+        .gantt-grid.vista-mes-single .gantt-header { grid-template-columns: 1fr; }
+        .gantt-grid.vista-mes-single .gantt-row { grid-template-columns: 1fr; }
+        .gantt-grid.vista-mes-single .gantt-cell-barra { grid-template-columns: 1fr; }
+        .gantt-grid.vista-mes-calendario { min-width: 560px; }
+        .vista-mes-calendario-grid { display: grid; grid-template-columns: 56px repeat(7, 1fr); gap: 1px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+        .vista-mes-cal-semana-label { font-size: 0.65rem; font-weight: 600; color: #64748b; padding: 6px 4px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-mes-cal-dia-semana { font-size: 0.7rem; font-weight: 600; color: #94a3b8; padding: 8px 4px; text-align: center; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-mes-cal-dia-semana:nth-child(odd) { background: rgba(255,255,255,0.06); }
+        .vista-mes-cal-dia { min-height: 52px; padding: 4px; font-size: 0.75rem; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; }
+        .vista-mes-cal-dia:nth-child(odd) { background: rgba(255,255,255,0.05); }
+        .vista-mes-cal-dia.fora-mes { color: #64748b; opacity: 0.7; }
+        .vista-mes-cal-dia-num { font-weight: 600; color: #94a3b8; margin-bottom: 4px; }
+        .vista-mes-cal-dia.fora-mes .vista-mes-cal-dia-num { color: #64748b; }
+        .vista-mes-cal-indicadores { display: flex; flex-wrap: wrap; gap: 2px; margin-top: auto; }
+        .vista-mes-cal-indicador { width: 6px; height: 6px; border-radius: 2px; }
+        .vista-mes-cal-indicador.etapa-planejamento { background: #6b7280; }
+        .vista-mes-cal-indicador.etapa-producao { background: #9ca3af; }
+        .vista-mes-cal-indicador.etapa-execucao { background: #d1d5db; }
+        .vista-mes-cal-indicador.etapa-pos-producao { background: #e5e7eb; }
+        .vista-mes-cal-dia.agora { background: rgba(132,204,22,0.12); }
+        .vista-mes-cal-dia.agora .vista-mes-cal-dia-num { color: #a3e635; }
+        .vista-mes-cal-dia.clickable { cursor: pointer; }
+        .vista-mes-cal-dia.clickable:hover { background: rgba(255,255,255,0.08); }
+        .vista-mes-cal-dia.agora.clickable:hover { background: rgba(132,204,22,0.2); }
+        .vista-mes-densidade { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; padding: 12px 0; margin-bottom: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+        .vista-mes-densidade-titulo { grid-column: 1 / -1; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 8px; padding: 0 8px; }
+        .vista-mes-densidade-semana { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; min-height: 40px; }
+        .vista-mes-densidade-bar { flex: 1; min-width: 4px; background: rgba(132,204,22,0.4); border-radius: 2px 2px 0 0; transition: height 0.2s; min-height: 6px; }
+        .vista-mes-densidade-bar:hover { background: rgba(132,204,22,0.6); }
+        .vista-mes-densidade-semana:nth-child(odd) .vista-mes-densidade-bar:nth-child(even),
+        .vista-mes-densidade-semana:nth-child(even) .vista-mes-densidade-bar:nth-child(odd) { background: rgba(132,204,22,0.3); }
+        .gantt-grid.vista-semana { min-width: 560px; }
+        .gantt-grid.vista-semana .gantt-header { grid-template-columns: repeat(7, 1fr); }
+        .gantt-grid.vista-semana .gantt-row { grid-template-columns: repeat(7, 1fr); }
+        .gantt-grid.vista-semana .gantt-cell-barra { grid-template-columns: repeat(7, 1fr); }
+        .gantt-grid.vista-semana-agenda { min-width: 720px; }
+        .vista-semana-header { display: grid; grid-template-columns: 72px repeat(7, 1fr); gap: 1px; margin-bottom: 4px; }
+        .vista-semana-tarefas { grid-template-columns: 72px 1fr; }
+        .vista-semana-hora-vazia { min-height: 24px; min-width: 72px; flex-shrink: 0; }
+        .vista-semana-dia-titulo { text-align: center; padding: 8px 4px; font-size: 0.75rem; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+        .vista-semana-dia-titulo .dia-nome { display: block; font-weight: 700; color: #94a3b8; }
+        .vista-semana-dia-titulo .dia-num { font-size: 0.7rem; color: #64748b; }
+        .vista-semana-dia-titulo.agora { background: rgba(132,204,22,0.2); border-color: rgba(132,204,22,0.4); }
+        .vista-semana-dia-titulo.agora .dia-nome { color: #a3e635; }
+        .vista-semana-dia-titulo:nth-child(odd):not(.agora) { background: rgba(255,255,255,0.06); }
+        .vista-semana-dia-titulo:nth-child(even):not(.agora) { background: rgba(255,255,255,0.04); }
+        .vista-semana-tarefas { display: grid; grid-template-columns: 72px 1fr; gap: 1px; margin-bottom: 8px; }
+        .vista-semana-dias-tarefas { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; min-height: 60px; }
+        .vista-semana-dia-col { display: flex; flex-direction: column; gap: 2px; padding: 4px; background: rgba(255,255,255,0.02); border-radius: 4px; }
+        .vista-semana-dia-col:nth-child(odd) { background: rgba(255,255,255,0.04); }
+        .vista-semana-dia-col:nth-child(even) { background: rgba(255,255,255,0.02); }
+        .vista-semana-tarefa-mini { padding: 4px 6px; font-size: 0.65rem; border-radius: 4px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .vista-semana-grid-turnos { border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+        .vista-semana-turno-row { display: grid; grid-template-columns: 72px 1fr; min-height: 52px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-semana-turno-row:last-child { border-bottom: none; }
+        .vista-semana-turno-label { font-size: 0.75rem; font-weight: 600; color: #94a3b8; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; min-width: 72px; flex-shrink: 0; box-sizing: border-box; }
+        .vista-semana-turno-horas { font-size: 0.6rem; font-weight: 400; color: #64748b; margin-top: 1px; }
+        .vista-semana-turno-cells { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; }
+        .vista-semana-turno-cell { min-height: 48px; background: rgba(255,255,255,0.02); border-radius: 4px; position: relative; }
+        .vista-semana-turno-cell.agenda-agora { background: rgba(132,204,22,0.1); }
+        .vista-semana-turno-cell.has-compromisso { background: rgba(255,255,255,0.05); }
+        .vista-semana-turno-cell:nth-child(odd) { background: rgba(255,255,255,0.03); }
+        .vista-semana-turno-cell:nth-child(even) { background: rgba(255,255,255,0.05); }
+        .vista-semana-turno-cell.has-compromisso { background: rgba(255,255,255,0.07); }
+        .vista-semana-turno-cell.agenda-agora { background: rgba(132,204,22,0.12) !important; }
+        .vista-semana-turno-row:nth-child(odd) .vista-semana-turno-label { background: rgba(255,255,255,0.02); }
+        .vista-semana-turno-row.agenda-agora-row .vista-semana-turno-label { color: #84cc16; }
+        .gantt-grid.vista-dia-3 { min-width: 420px; }
+        .gantt-grid.vista-dia-3 .gantt-header { grid-template-columns: repeat(3, 1fr); }
+        .gantt-grid.vista-dia-3 .gantt-row .gantt-cell-barra { grid-template-columns: repeat(3, 1fr); }
+        .gantt-grid.vista-dia-1 { min-width: 280px; }
+        .gantt-grid.vista-dia-1 .gantt-header { grid-template-columns: 1fr; }
+        .gantt-grid.vista-dia-1 .gantt-row .gantt-cell-barra { grid-template-columns: 1fr; }
+        .gantt-grid.vista-dia-1 .vista-dia-horas .grid-dia { grid-template-columns: 1fr; }
+        .demanda-heat { position: absolute; top: 0; bottom: 0; pointer-events: none; border-radius: 4px; }
+        .vista-dia-toolbar { display: flex; justify-content: flex-end; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px; }
+        .vista-dia-add { padding: 6px 12px; font-size: 0.8rem; background: rgba(132,204,22,0.2); border: 1px solid rgba(132,204,22,0.5); border-radius: 6px; color: #a3e635; cursor: pointer; }
+        .vista-dia-add:hover { background: rgba(132,204,22,0.35); }
+        .vista-dia-horas { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+        .vista-dia-horas-row { display: grid; grid-template-columns: 44px 1fr; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-dia-horas-row:last-child { border-bottom: none; }
+        .vista-dia-horas .horas-col.agenda-hora { font-size: 0.7rem; color: #64748b; padding: 2px 8px; display: flex; align-items: center; min-width: 44px; flex-shrink: 0; box-sizing: border-box; }
+        .vista-dia-horas .grid-dia { display: grid; grid-template-columns: repeat(3, 1fr); }
+        .vista-dia-horas .grid-dia .agenda-slot { border-right: 1px solid rgba(255,255,255,0.04); }
+        .vista-dia-horas .grid-dia .agenda-slot:last-child { border-right: none; }
+        .vista-dia-horas .grid-dia .agenda-slot:nth-child(odd) { background: rgba(255,255,255,0.02); }
+        .vista-dia-horas .grid-dia .agenda-slot:nth-child(even) { background: rgba(255,255,255,0.04); }
+        .vista-dia-horas-row:nth-child(odd) { background: rgba(255,255,255,0.01); }
+        .vista-dia-horas-row:nth-child(even) { background: transparent; }
+        /* Agenda diária — grade minimalista tipo Google Calendar */
+        .vista-agenda-diaria .vista-dia-horas { max-height: 70vh; overflow-y: auto; border: none; border-radius: 0; background: transparent; }
+        .vista-agenda-diaria .vista-dia-horas .grid-dia { grid-template-columns: 1fr; }
+        .vista-agenda-diaria .vista-dia-horas .grid-dia .agenda-slot { border-right: none; }
+        .vista-agenda-diaria .vista-dia-horas-row { border-bottom: none; }
+        .vista-agenda-diaria .vista-dia-horas-row.agenda-hora-cheia { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-agenda-diaria .vista-dia-horas-row.agenda-hora-meia { border-bottom: 1px dotted rgba(255,255,255,0.03); }
+        .vista-agenda-diaria .vista-dia-horas .horas-col.agenda-hora { font-size: 0.65rem; color: #64748b; opacity: 0.9; }
+        .vista-agenda-diaria .agenda-slot.agenda-agora { background: rgba(132,204,22,0.08); }
+        .vista-agenda-diaria .vista-dia-horas-row.agenda-agora-row .horas-col { color: #84cc16; font-weight: 600; opacity: 1; }
+        /* Vista 3 dias — grade horária (intermediário entre turnos e 30min) */
+        .vista-dia-3 .vista-dia-horas-row { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .vista-dia-3 .vista-dia-horas .horas-col.agenda-hora { font-size: 0.68rem; }
+        .vista-dia-3 .vista-dia-horas .grid-dia .agenda-slot { border-right: 1px solid rgba(255,255,255,0.04); }
+        .vista-dia-horas-row.turno-limite { border-top: 2px solid rgba(255,255,255,0.1); }
+        .vista-agenda-diaria .vista-dia-horas-row.turno-limite { border-top: 2px solid rgba(255,255,255,0.08); }
+        .gantt-grid.vista-compacta .gantt-cell-barra { min-height: 26px; }
+        .gantt-grid.vista-compacta .gantt-barra-wrapper { inset: 4px 0; }
+        .gantt-grid.vista-compacta .gantt-barra { height: 20px; font-size: 0.62rem; padding: 0 3px; }
+        .gantt-grid.vista-compacta .gantt-header-cell { padding: 4px 2px; font-size: 0.65rem; }
+        .gantt-grid.vista-compacta .gantt-barra .resize-handle { width: 8px; }
+        .gantt-header { display: grid; grid-column: 1 / -1; }
+        .gantt-grid.vista-meses .gantt-header { grid-template-columns: repeat(12, 1fr); }
+        .gantt-grid.vista-semanas .gantt-header { grid-template-columns: repeat(48, 1fr); }
+        .gantt-header-cell { padding: 8px 4px; font-size: 0.7rem; font-weight: 600; text-align: center; background: rgba(255,255,255,0.04); border-bottom: 2px solid rgba(255,255,255,0.08); border-right: 1px solid rgba(255,255,255,0.04); }
+        .gantt-header-cell.mes-inicio { border-left: 2px solid rgba(255,255,255,0.15); }
+        .gantt-grid.vista-dia-1 .gantt-header-cell,
+        .gantt-grid.vista-dia-3 .gantt-header-cell:nth-child(odd):not(.agora) { background: rgba(255,255,255,0.06); }
+        .gantt-grid.vista-dia-3 .gantt-header-cell:nth-child(even):not(.agora) { background: rgba(255,255,255,0.04); }
+        .gantt-row { display: grid; grid-column: 1 / -1; }
+        .gantt-grid.vista-meses .gantt-row { grid-template-columns: repeat(12, 1fr); }
+        .gantt-grid.vista-semanas .gantt-row { grid-template-columns: repeat(48, 1fr); }
+        .gantt-cell-barra { position: relative; min-height: 38px; grid-column: 1 / -1; display: grid; }
+        .gantt-grid.vista-meses .gantt-cell-barra { grid-template-columns: repeat(12, 1fr); }
+        .gantt-grid.vista-semanas .gantt-cell-barra { grid-template-columns: repeat(48, 1fr); }
+        .gantt-barra-wrapper { position: absolute; inset: 6px 0; pointer-events: none; }
+        .gantt-barra { position: absolute; top: 50%; transform: translateY(-50%); height: 26px; border-radius: 4px; cursor: move; display: flex; align-items: center; justify-content: center; padding: 0 4px; font-size: 0.68rem; overflow: hidden; pointer-events: auto; border: 1px solid; max-width: 100%; }
+        .gantt-barra span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .gantt-barra.status-nao-iniciada { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.25); color: #e4e4e7; }
+        .gantt-barra.status-em-andamento { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.4); color: #18181b; }
+        .gantt-barra.status-aguardando-pagamento,
+        .gantt-barra.status-aguardando-terceiros,
+        .gantt-barra.status-aguardando-decisao { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); color: #d4d4d8; }
+        .gantt-barra.status-em-revisao,
+        .gantt-barra.status-aguardando-aprovacao { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: #18181b; }
+        .gantt-barra.status-concluida { background: #52525b; border-color: #71717a; color: #fff; }
+        .gantt-barra.status-pausada { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18); color: #d4d4d8; }
+        .gantt-barra.status-cancelada { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: #a1a1aa; }
+        .gantt-barra.etapa-planejamento { border-left: 3px solid #6b7280; }
+        .gantt-barra.etapa-producao { border-left: 3px solid #9ca3af; }
+        .gantt-barra.etapa-execucao { border-left: 3px solid #d1d5db; }
+        .gantt-barra.etapa-pos-producao { border-left: 3px solid #e5e7eb; }
+        .gantt-barra .resize-handle { position: absolute; right: 0; top: 0; bottom: 0; width: 12px; cursor: ew-resize; pointer-events: auto; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.2)); }
+        .gantt-celula-semana { border-right: 1px solid rgba(255,255,255,0.04); min-width: 0; }
+        .gantt-celula-semana.evento { background: rgba(255,255,255,0.04); }
+        .gantt-celula-semana.agora { background: rgba(255,255,255,0.06); }
+        .gantt-celula-semana.mes-inicio { border-left: 1px solid rgba(255,255,255,0.1); }
+        .gantt-fantasma { position: absolute; top: 50%; transform: translateY(-50%); padding: 6px 8px; border-radius: 6px; border: 2px dashed rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); font-size: 0.7rem; pointer-events: none; z-index: 50; overflow: hidden; }
+        .gantt-fantasma .tempo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .gantt-fantasma .tempo { font-weight: 600; color: #d1d5db; }
+        .gantt-fantasma .nota { font-size: 0.6rem; color: #9ca3af; margin-top: 2px; }
+
+        .cronograma-lista { display: none; overflow-x: auto; }
+        .cronograma-lista.ativo { display: block; }
+        .cronograma-lista table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .cronograma-lista th, .cronograma-lista td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .cronograma-lista th { background: rgba(255,255,255,0.04); color: #94a3b8; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .cronograma-lista tr:hover { background: rgba(255,255,255,0.04); }
+        .cronograma-lista tr { cursor: pointer; }
+        .cronograma-lista .etapa-cell { text-transform: capitalize; }
+        .cronograma-etapas { overflow-x: auto; padding-bottom: 16px; }
+        .cronograma-etapas.ativo { display: flex !important; gap: 16px; align-items: flex-start; min-height: 300px; }
+        .cronograma-gantt-layout { display: none; flex: 1; min-height: 0; }
+        .cronograma-gantt-layout.ativo { display: flex; gap: 0; }
+        .cronograma-sidebar { width: 200px; min-width: 200px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 0 12px 12px 0; padding: 12px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0; transition: width 0.2s, min-width 0.2s; overflow: hidden; }
+        .cronograma-sidebar.recolhida { width: 48px; min-width: 48px; padding: 8px; }
+        .cronograma-sidebar.recolhida .cronograma-sidebar-title,
+        .cronograma-sidebar.recolhida .cronograma-mini-calendario-wrap,
+        .cronograma-sidebar.recolhida .cronograma-sidebar-section { display: none; }
+        .cronograma-sidebar-header { display: flex; align-items: center; justify-content: space-between; }
+        .cronograma-sidebar-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+        .cronograma-sidebar-toggle { background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.7rem; padding: 4px; }
+        .cronograma-sidebar-toggle:hover { color: #94a3b8; }
+        .cronograma-sidebar.recolhida .cronograma-sidebar-toggle { transform: rotate(180deg); }
+        .cronograma-mini-calendario-wrap { margin-bottom: 8px; }
+        .cronograma-mini-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .cronograma-mini-cal-header button { background: none; border: none; color: #9aa0a6; cursor: pointer; font-size: 1rem; padding: 0 4px; }
+        .cronograma-mini-cal-header button:hover { color: #e8eaed; }
+        .cronograma-mini-cal-header span { font-size: 0.75rem; font-weight: 600; color: #e8eaed; }
+        .cronograma-mini-calendario { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; font-size: 0.6rem; }
+        .cronograma-mini-dia { padding: 4px 2px; text-align: center; border-radius: 4px; color: #9aa0a6; min-height: 20px; }
+        .cronograma-mini-dia.dom { color: #64748b; }
+        .cronograma-mini-dia.has-tarefa { color: #84cc16; }
+        .cronograma-mini-dia.agora { background: #84cc16; color: #1a1a1a; }
+        .cronograma-mini-dia.agora.has-tarefa::after { color: #1a1a1a; }
+        .cronograma-mini-dia.clickable { cursor: pointer; }
+        .cronograma-mini-dia.clickable:hover { background: rgba(255,255,255,0.1); }
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+1),
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+3),
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+5),
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+7) { background: rgba(255,255,255,0.03); }
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+2),
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+4),
+        .cronograma-mini-calendario .cronograma-mini-dia:nth-child(7n+6) { background: rgba(255,255,255,0.01); }
+        .cronograma-mini-dia-sem { font-size: 0.5rem; color: #64748b; grid-column: 1 / -1; }
+        .cronograma-sidebar-section { display: flex; flex-direction: column; gap: 6px; }
+        .cronograma-sidebar-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 2px; }
+        .cronograma-check { font-size: 0.8rem; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .cronograma-check input { accent-color: #71717a; }
+        .cronograma-check:hover { color: #e4e4e7; }
+        .gantt-container { flex: 1; overflow-x: auto; min-width: 0; }
+        .gantt-container.gantt-panable { cursor: grab; }
+        .gantt-container.gantt-panable.gantt-dragging { cursor: grabbing; }
+        .gantt-barra .barra-extra { display: none; font-size: 0.6rem; opacity: 0.9; margin-left: 6px; }
+        .gantt-barra.zoom-baixo .barra-extra { display: none; }
+        .gantt-barra.zoom-alto .barra-extra { display: inline; }
+        .gantt-barra.zoom-alto { flex-wrap: wrap; gap: 2px; justify-content: flex-start; }
+        body.light .cronograma-sidebar { background: #f4f4f5; border-color: #e4e4e7; }
+        body.light .cronograma-mes-btn { background: #e4e4e7; border-color: #d4d4d8; color: #52525b; }
+        body.light .cronograma-mes-btn:hover { background: #d4d4d8; color: #18181b; }
+        body.light .cronograma-check { color: #52525b; }
+        body.light .cronograma-check:hover { color: #18181b; }
+        .cronograma-coluna { flex: 0 0 280px; min-width: 260px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); padding: 12px; }
+        .cronograma-coluna-titulo { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .cronograma-coluna.drag-over { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+        .cronograma-card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; cursor: grab; border-left: 4px solid #6b7280; font-size: 0.85rem; }
+        .cronograma-card:hover { background: rgba(255,255,255,0.08); }
+        .cronograma-card.etapa-planejamento { border-left-color: #6b7280; }
+        .cronograma-card.etapa-producao { border-left-color: #9ca3af; }
+        .cronograma-card.etapa-execucao { border-left-color: #d1d5db; }
+        .cronograma-card.etapa-pos-producao { border-left-color: #e5e7eb; }
+        .cronograma-card small { font-size: 0.72rem; color: #64748b; display: block; margin-top: 4px; }
+        body.light .cronograma-lista th { background: #e4e4e7; color: #52525b; }
+        body.light .cronograma-lista td { border-color: #e4e4e7; }
+        body.light .cronograma-lista tr:hover { background: #f4f4f5; }
+        body.light .cronograma-coluna { background: #f4f4f5; border-color: #e4e4e7; }
+        body.light .cronograma-coluna.drag-over { background: #e4e4e7; border-color: #a1a1aa; }
+        body.light .cronograma-card { background: #fff; border-left-color: #6b7280; }
+        body.light .cronograma-card:hover { background: #f4f4f5; }
+
+        /* === Cronograma Calendar Model (layout fiel à referência) === */
+        .cronograma-calendar-model { background: #f5f6f8 !important; border-radius: 12px; overflow: hidden; padding: 16px; }
+        .cronograma-calendar-model .toolbar-cronograma { background: #fff; border: 1px solid #e8eaed; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; }
+        .cronograma-calendar-model .filtros-bar input,
+        .cronograma-calendar-model .filtros-bar select { background: #f8f9fa; border: 1px solid #e0e2e5; color: #202124; }
+        .cronograma-calendar-model .export-bar button { background: #fff; border: 1px solid #dadce0; color: #5f6368; }
+        .cronograma-calendar-model .export-bar button:hover { background: #f8f9fa; color: #202124; }
+        .cronograma-calendar-model .dica { color: #5f6368; }
+        .cronograma-calendar-model .gantt-nav { border-color: #e8eaed; }
+        .cronograma-calendar-model .gantt-vistas-principais { background: #e8eaed; padding: 3px; border-radius: 10px; }
+        .cronograma-calendar-model .gantt-vista-principal { color: #5f6368; }
+        .cronograma-calendar-model .gantt-vista-principal:hover { color: #202124; }
+        .cronograma-calendar-model .gantt-vista-principal.ativa { background: #fff !important; color: #202124; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .cronograma-calendar-model .gantt-vistas { background: #e8eaed; }
+        .cronograma-calendar-model .gantt-vista-btn { color: #5f6368; }
+        .cronograma-calendar-model .gantt-vista-btn:hover { color: #202124; }
+        .cronograma-calendar-model .gantt-vista-btn.ativa { background: #fff !important; color: #202124; }
+        .cronograma-calendar-model .gantt-nav button:not(.gantt-vista-btn) { background: #fff; border-color: #dadce0; color: #5f6368; }
+        .cronograma-calendar-model .gantt-nav button:not(.gantt-vista-btn):hover { background: #f8f9fa; color: #202124; }
+        .cronograma-calendar-model #gantt-scroll-hoje { background: #84cc16 !important; border-color: #65a30d !important; color: #1a1a1a !important; font-weight: 600; }
+        .cronograma-calendar-model #gantt-scroll-hoje:hover { background: #a3e635 !important; }
+        .cronograma-calendar-model .gantt-nav .gantt-nav-info { color: #80868b; }
+        .cronograma-calendar-model .gantt-zoom button { background: #fff; border-color: #dadce0; color: #5f6368; }
+        .cronograma-calendar-model .gantt-zoom button:hover { background: #f8f9fa; color: #202124; }
+        .cronograma-calendar-model .gantt-zoom span { color: #5f6368; }
+        .cronograma-calendar-model .gantt-zoom-sep { color: #dadce0; }
+        .cronograma-calendar-model .cronograma-sidebar { background: #2d2f36 !important; border-color: #3d3f47; border-radius: 0 12px 12px 0; }
+        .cronograma-calendar-model .cronograma-sidebar-title { color: #9aa0a6 !important; }
+        .cronograma-calendar-model .cronograma-sidebar-toggle { color: #9aa0a6; }
+        .cronograma-calendar-model .cronograma-sidebar-toggle:hover { color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-mes-btn { background: #3d3f47; border-color: #4d4f57; color: #9aa0a6; }
+        .cronograma-calendar-model .cronograma-mes-btn:hover { background: #4d4f57; color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-mes-btn.evento { background: #5a4d7a; border-color: #6d5d8a; color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-mes-btn.agora { background: #84cc16; border-color: #65a30d; color: #1a1a1a; }
+        .cronograma-calendar-model .cronograma-mini-cal-header span { color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-mini-cal-header button { color: #9aa0a6; }
+        .cronograma-calendar-model .cronograma-mini-dia { color: #9aa0a6; }
+        .cronograma-calendar-model .cronograma-mini-dia.has-tarefa { color: #84cc16; }
+        .cronograma-calendar-model .cronograma-sidebar-label { color: #9aa0a6 !important; }
+        .cronograma-calendar-model .cronograma-check { color: #9aa0a6; }
+        .cronograma-calendar-model .cronograma-check:hover { color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-check input { accent-color: #84cc16; }
+        .cronograma-calendar-model .gantt-container { background: #fff; border: 1px solid #e8eaed; border-radius: 10px; }
+        .cronograma-calendar-model .gantt-header-cell { background: #f8f9fa; color: #202124; border-color: #e8eaed; font-weight: 600; }
+        .cronograma-calendar-model .gantt-header-cell.agora { background: linear-gradient(135deg, #84cc16 0%, #a3e635 100%) !important; color: #1a1a1a; }
+        .cronograma-calendar-model .gantt-header-cell.evento { background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%) !important; color: #1a1a1a; }
+        .cronograma-calendar-model .gantt-header-cell:not(.agora):not(.evento) { background: #f1f3f4; color: #5f6368; }
+        .cronograma-calendar-model .gantt-header-cell.mes-inicio { border-left: 2px solid #dadce0; }
+        .cronograma-calendar-model .gantt-celula-semana { border-right-color: #e8eaed; }
+        .cronograma-calendar-model .gantt-celula-semana.agora { background: rgba(132,204,22,0.15); }
+        .cronograma-calendar-model .gantt-celula-semana.evento { background: rgba(167,139,250,0.12); }
+        .cronograma-calendar-model .gantt-celula-semana.mes-inicio { border-left-color: #dadce0; }
+        .cronograma-calendar-model .gantt-barra { border-radius: 8px; border: none; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+        .cronograma-calendar-model .gantt-barra.etapa-planejamento { background: #e9dcff !important; color: #4c1d95 !important; }
+        .cronograma-calendar-model .gantt-barra.etapa-producao { background: #d4e8ff !important; color: #1e40af !important; }
+        .cronograma-calendar-model .gantt-barra.etapa-execucao { background: #d4f4dd !important; color: #166534 !important; }
+        .cronograma-calendar-model .gantt-barra.etapa-pos-producao { background: #fff4d4 !important; color: #854d0e !important; }
+        .cronograma-calendar-model .gantt-barra.status-concluida { filter: saturate(0.6); opacity: 0.9; }
+        .cronograma-calendar-model .gantt-barra.status-em-andamento { box-shadow: 0 0 0 2px rgba(132,204,22,0.4); }
+        .cronograma-calendar-model .gantt-row { background: #fff; }
+        .cronograma-calendar-model .gantt-row:nth-child(even) { background: #fcfcfd; }
+        .cronograma-calendar-model .gantt-barra .resize-handle { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08)); }
+        .cronograma-calendar-model .gantt-fantasma { background: rgba(255,255,255,0.9); border: 2px dashed #84cc16; color: #166534; }
+        .cronograma-calendar-model .gantt-fantasma .tempo { color: #166534; }
+        .cronograma-calendar-model .cronograma-lista { background: #fff; border: 1px solid #e8eaed; border-radius: 10px; }
+        .cronograma-calendar-model .cronograma-lista th { background: #f8f9fa; color: #5f6368; }
+        .cronograma-calendar-model .cronograma-lista td { border-color: #e8eaed; color: #202124; }
+        .cronograma-calendar-model .cronograma-lista tr:hover { background: #f8f9fa; }
+        .cronograma-calendar-model .cronograma-coluna { background: #f8f9fa; border-color: #e8eaed; }
+        .cronograma-calendar-model .cronograma-coluna.drag-over { background: #e8f5e9; border-color: #84cc16; }
+        .cronograma-calendar-model .cronograma-coluna-titulo { color: #5f6368; }
+        .cronograma-calendar-model .cronograma-card { background: #fff; border: 1px solid #e8eaed; }
+        .cronograma-calendar-model .cronograma-card.etapa-planejamento { border-left: 4px solid #a78bfa; }
+        .cronograma-calendar-model .cronograma-card.etapa-producao { border-left: 4px solid #60a5fa; }
+        .cronograma-calendar-model .cronograma-card.etapa-execucao { border-left: 4px solid #4ade80; }
+        .cronograma-calendar-model .cronograma-card.etapa-pos-producao { border-left: 4px solid #fbbf24; }
+        .cronograma-calendar-model .cronograma-card:hover { background: #f8f9fa; }
+        .cronograma-calendar-model .cronograma-card small { color: #5f6368; }
+        .cronograma-calendar-model .status-badge { border: 1px solid rgba(0,0,0,0.08); }
+        .cronograma-calendar-model .status-concluida { background: #d1fae5; color: #065f46; }
+        .cronograma-calendar-model .status-em-andamento { background: #dbeafe; color: #1e40af; }
+        .cronograma-calendar-model .vista-agenda-diaria .vista-dia-horas-row.agenda-hora-cheia { border-bottom-color: rgba(0,0,0,0.06); }
+        .cronograma-calendar-model .vista-agenda-diaria .vista-dia-horas-row.agenda-hora-meia { border-bottom-color: rgba(0,0,0,0.03); }
+        .cronograma-calendar-model .vista-agenda-diaria .vista-dia-horas .horas-col.agenda-hora { color: #5f6368; }
+        .cronograma-calendar-model .vista-agenda-diaria .agenda-slot.agenda-agora { background: rgba(132,204,22,0.1); }
+        .cronograma-calendar-model .vista-ano .gantt-celula-semana { background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px); }
+        .cronograma-calendar-model .vista-ano .vista-ano-semanas { color: #5f6368; }
+        .cronograma-calendar-model .vista-mes-4semanas .gantt-celula-semana { background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px); }
+        .cronograma-calendar-model .vista-mes-4semanas .vista-mes-dias { color: #5f6368; }
+        .cronograma-calendar-model .vista-semana-turno-cell { background: rgba(0,0,0,0.02); }
+        .cronograma-calendar-model .vista-semana-turno-cell.has-compromisso { background: rgba(0,0,0,0.04); }
+        .cronograma-calendar-model .vista-dia-3 .vista-dia-horas-row { border-bottom-color: rgba(0,0,0,0.06); }
+        .cronograma-calendar-model .vista-mes-densidade { background: rgba(0,0,0,0.02); border-color: #e8eaed; }
+        .cronograma-calendar-model .vista-mes-densidade-bar { background: rgba(132,204,22,0.35); }
+        .cronograma-calendar-model .vista-mes-densidade-bar:hover { background: rgba(132,204,22,0.5); }
+        .cronograma-calendar-model .gantt-turno-legend { background: rgba(0,0,0,0.04); color: #5f6368; }
+        .cronograma-calendar-model .vista-dia-horas-row.turno-limite { border-top-color: rgba(0,0,0,0.08); }
+        .cronograma-calendar-model .vista-mes-cal-dia-semana { background: #f8f9fa; color: #5f6368; }
+        .cronograma-calendar-model .vista-mes-cal-dia { background: #fff; color: #202124; }
+        .cronograma-calendar-model .vista-mes-cal-dia.fora-mes { color: #9aa0a6; }
+        .cronograma-calendar-model .vista-mes-cal-dia.agora { background: rgba(132,204,22,0.15); }
+        .cronograma-calendar-model .vista-semana-dia-titulo:nth-child(odd):not(.agora) { background: rgba(0,0,0,0.03); }
+        .cronograma-calendar-model .vista-semana-dia-titulo:nth-child(even):not(.agora) { background: rgba(0,0,0,0.01); }
+        .cronograma-calendar-model .vista-semana-turno-cell:nth-child(odd) { background: rgba(0,0,0,0.02); }
+        .cronograma-calendar-model .vista-semana-turno-cell:nth-child(even) { background: rgba(0,0,0,0.04); }
+        .cronograma-calendar-model .vista-dia-horas .grid-dia .agenda-slot:nth-child(odd) { background: rgba(0,0,0,0.02); }
+        .cronograma-calendar-model .vista-dia-horas .grid-dia .agenda-slot:nth-child(even) { background: rgba(0,0,0,0.04); }
+
+        .agente-card { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; margin-bottom: 16px; cursor: pointer; }
+        .agente-card:hover { background: rgba(255,255,255,0.06); }
+        .agente-tarefa { padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 8px; font-size: 0.9rem; }
+        .time-add, .time-nova-tarefa { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .time-add input, .time-nova-tarefa input, .time-nova-tarefa select { width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; margin-bottom: 10px; }
+
+        .orcamento-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .orcamento-card { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; border-left: 4px solid #71717a; }
+        .orcamento-card h4 { font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; }
+        .orcamento-card .valor { color: #e4e4e7; }
+        .orcamento-card.orc-custo { border-left-color: #71717a; }
+        .orcamento-card.orc-pagar { border-left-color: #9ca3af; }
+        .orcamento-card.orc-pago { border-left-color: #a1a1aa; }
+        .orcamento-card.orc-entrada { border-left-color: #b4b4b8; }
+        .orcamento-card.orc-saldo { border-left-color: #d4d4d8; }
+        .orcamento-card.orc-saldo.negativo .valor { color: #a1a1aa; }
+        .alerta-saldo-negativo { font-size: 0.85rem; color: #a1a1aa; }
+        .orcamento-card .valor { font-size: 1.3rem; font-weight: 700; }
+        .orcamento-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+        .orcamento-tabs button { padding: 8px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; color: #94a3b8; cursor: pointer; }
+        .orcamento-tabs button.ativo { background: rgba(255,255,255,0.12); color: #e2e4e8; }
+        .orcamento-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-left: 8px; }
+        .status-nao-iniciada { background: rgba(255,255,255,0.12); color: #d4d4d8; }
+        .status-em-andamento { background: rgba(255,255,255,0.2); color: #e4e4e7; }
+        .status-aguardando-pagamento, .status-aguardando-terceiros, .status-aguardando-decisao { background: rgba(255,255,255,0.1); color: #a1a1aa; }
+        .status-em-revisao, .status-aguardando-aprovacao { background: rgba(255,255,255,0.15); color: #d4d4d8; }
+        .status-concluida { background: #52525b; color: #e4e4e7; }
+        .status-pausada { background: rgba(255,255,255,0.08); color: #9ca3af; }
+        .status-cancelada { background: rgba(255,255,255,0.05); color: #71717a; }
+        .prompt-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1100; }
+        .prompt-overlay.ativo { display: flex; }
+        .prompt-box { background: #1a1d28; padding: 24px; border-radius: 12px; max-width: 400px; }
+        .prompt-box input { width: 100%; padding: 10px; margin: 12px 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #e8eaed; }
+        .alertas-box { display: flex; flex-wrap: wrap; gap: 6px; }
+        .alerta { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; background: #3f3f46; color: #e4e4e7; border: 1px solid #52525b; }
+        .alerta.aviso { background: #52525b; color: #e4e4e7; border-color: #71717a; }
+        .progress-bar-mini { width: 80px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .progress-bar-mini-fill { height: 100%; background: #71717a; border-radius: 3px; }
+        .resumo-compact { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.78rem; color: #9ca3af; margin-bottom: 16px; padding: 8px 0; }
+        .resumo-compact span { padding: 3px 8px; background: rgba(255,255,255,0.04); border-radius: 4px; }
+        .toolbar-cronograma { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+        .toolbar-cronograma .filtros-bar { margin-bottom: 0; flex: 1; min-width: 200px; }
+        .toolbar-cronograma .export-bar { margin-bottom: 0; }
+        .dica { font-size: 0.8rem; color: #9ca3af; margin-bottom: 12px; }
+        .filtros-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+        .filtros-bar input, .filtros-bar select { padding: 6px 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #e8eaed; font-size: 0.85rem; }
+        .filtros-bar input { min-width: 140px; }
+        .filtros-bar select { min-width: 120px; }
+        .export-bar { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+        .export-bar button { padding: 6px 12px; font-size: 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: #9ca3af; cursor: pointer; }
+        .export-bar button:hover { background: rgba(255,255,255,0.12); color: #e2e4e8; }
+        .grafico-barras { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin: 16px 0; padding: 12px 0; }
+        .grafico-bar { flex: 1; min-width: 40px; min-height: 20px; background: rgba(255,255,255,0.2); border-radius: 4px 4px 0 0; position: relative; align-self: flex-end; }
+        .grafico-bar span { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: #64748b; white-space: nowrap; }
+        body.light { background: #fafafa; color: #18181b; }
+        body.light .header { border-color: rgba(0,0,0,0.15); }
+        body.light h1, body.light h1 span { color: #18181b; }
+        body.light .header-stat strong, body.light .resumo-compact, body.light .resumo-compact span { color: #52525b; }
+        body.light #kpi-countdown { color: #52525b !important; }
+        body.light .painel-etapas, body.light .calendario-wrapper { background: #fff; border: 1px solid #d4d4d8; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        body.light .painel-etapas-title, body.light .etapa-titulo, body.light .grupo-titulo { color: #3f3f46; }
+        body.light .etapa-bloco { background: #f4f4f5 !important; border-left-color: #71717a !important; }
+        body.light .card { background: #f4f4f5; color: #18181b; }
+        body.light .card:hover { background: #e4e4e7; }
+        body.light .abas { background: #d4d4d8; }
+        body.light .aba { color: #3f3f46; }
+        body.light .aba:hover { color: #18181b; background: #e4e4e7; }
+        body.light .aba.ativa { background: #fff; color: #18181b; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.08); }
+        body.light .filtros-bar input, body.light .filtros-bar select { background: #fff; border: 1px solid #a1a1aa; color: #18181b; }
+        body.light .export-bar button { background: #fff; border: 1px solid #a1a1aa; color: #3f3f46; }
+        body.light .export-bar button:hover { background: #f4f4f5; color: #18181b; }
+        body.light .dica { color: #52525b; }
+        body.light .gantt-nav { border-color: rgba(0,0,0,0.1); }
+        body.light .gantt-nav button { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #52525b; }
+        body.light .gantt-nav button:hover { background: rgba(0,0,0,0.08); color: #18181b; }
+        body.light .gantt-nav .gantt-nav-info { color: #71717a; }
+        body.light .gantt-zoom-sep { color: rgba(0,0,0,0.2); }
+        body.light .gantt-zoom span { color: #52525b; }
+        body.light .gantt-vista-principal { color: #52525b; }
+        body.light .gantt-vista-principal:hover { color: #18181b; }
+        body.light .gantt-vista-principal.ativa { background: #e4e4e7; color: #18181b; }
+        body.light .gantt-header-cell { color: #18181b; background: #e4e4e7; border-bottom: 2px solid #d4d4d8; border-right-color: #d4d4d8; }
+        body.light .gantt-grid.vista-ano .gantt-header-cell:nth-child(even):not(.agora):not(.evento) { background: #d4d4d8; }
+        body.light .vista-mes-cal-dia-semana { background: #e4e4e7; color: #52525b; }
+        body.light .vista-mes-cal-dia { background: #fafafa; color: #18181b; }
+        body.light .vista-mes-cal-dia.fora-mes { color: #71717a; }
+        body.light .vista-mes-cal-dia.agora { background: rgba(132,204,22,0.15); }
+        body.light .gantt-grid.vista-dia-3 .gantt-header-cell:nth-child(odd):not(.agora) { background: #e4e4e7; }
+        body.light .gantt-grid.vista-dia-3 .gantt-header-cell:nth-child(even):not(.agora) { background: #d4d4d8; }
+        body.light .gantt-header-cell.mes-inicio { border-left-color: #a1a1aa; }
+        body.light .gantt-celula-semana { border-right-color: #e4e4e7; }
+        body.light .gantt-grid.vista-ano .gantt-celula-semana:nth-child(odd) { background-color: rgba(0,0,0,0.03); }
+        body.light .gantt-grid.vista-ano .gantt-celula-semana:nth-child(even) { background-color: rgba(0,0,0,0.02); }
+        body.light .gantt-grid.vista-mes-4semanas .gantt-celula-semana:nth-child(odd) { background-color: rgba(0,0,0,0.02); }
+        body.light .gantt-grid.vista-mes-4semanas .gantt-celula-semana:nth-child(even) { background-color: rgba(0,0,0,0.04); }
+        body.light .gantt-celula-semana.agora { background: rgba(0,0,0,0.04) !important; }
+        body.light .gantt-celula-semana.evento { background: rgba(0,0,0,0.03) !important; }
+        body.light .gantt-celula-semana.mes-inicio { border-left-color: #d4d4d8; }
+        body.light .vista-semana-dia-titulo:nth-child(odd):not(.agora) { background: rgba(0,0,0,0.04); }
+        body.light .vista-semana-dia-titulo:nth-child(even):not(.agora) { background: rgba(0,0,0,0.02); }
+        body.light .vista-semana-turno-cell:nth-child(odd) { background: rgba(0,0,0,0.03); }
+        body.light .vista-semana-turno-cell:nth-child(even) { background: rgba(0,0,0,0.05); }
+        body.light .vista-semana-dia-col:nth-child(odd) { background: rgba(0,0,0,0.04); }
+        body.light .vista-semana-dia-col:nth-child(even) { background: rgba(0,0,0,0.02); }
+        body.light .vista-dia-horas .grid-dia .agenda-slot:nth-child(odd) { background: rgba(0,0,0,0.02); }
+        body.light .vista-dia-horas .grid-dia .agenda-slot:nth-child(even) { background: rgba(0,0,0,0.04); }
+        body.light .modal { background: #fff; color: #18181b; }
+        body.light .modal-campo label, body.light .modal-secao h3 { color: #52525b; }
+        body.light .modal-campo input, body.light .modal-campo textarea, body.light .modal-campo select { background: #f4f4f5; border-color: rgba(0,0,0,0.15); color: #18181b; }
+        body.light .modal-btn { background: #52525b; }
+        body.light .modal-btn:hover { background: #3f3f46; }
+        body.light .orcamento-card h4, body.light .orcamento-tabs button { color: #52525b; }
+        body.light .orcamento-tabs button.ativo { background: #e4e4e7; color: #18181b; }
+        body.light .orcamento-item, body.light .agente-card, body.light .agente-tarefa { color: #18181b; }
+        body.light .time-add input, body.light .time-nova-tarefa input, body.light .time-nova-tarefa select { background: #fff; border-color: rgba(0,0,0,0.2); color: #18181b; }
+        body.light .historico-item { color: #52525b; border-color: rgba(0,0,0,0.08); }
+        body.light .theme-toggle { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.15); color: #52525b; }
+        body.light .theme-toggle:hover { background: rgba(0,0,0,0.1); color: #18181b; }
+        body.light .progress-bar-mini { background: rgba(0,0,0,0.1); }
+        body.light .card .btn-relatorio { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.12); color: #52525b; }
+        body.light .prompt-box { background: #fff; }
+        body.light .prompt-box input { background: #f4f4f5; border-color: rgba(0,0,0,0.15); color: #18181b; }
+        body.light .grafico-bar span { color: #52525b; }
+        body.light .grafico-bar { background: rgba(0,0,0,0.2); }
+        body.light .gantt-fantasma { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.25); }
+        body.light .gantt-fantasma .tempo { color: #3f3f46; }
+        body.light .gantt-fantasma .nota { color: #52525b; }
+        body.light .gantt-barra.status-nao-iniciada { background: #e4e4e7; border-color: #d4d4d8; color: #52525b; }
+        body.light .gantt-barra.status-em-andamento { background: #a1a1aa; border-color: #71717a; color: #18181b; }
+        body.light .gantt-barra.status-aguardando-pagamento,
+        body.light .gantt-barra.status-aguardando-terceiros,
+        body.light .gantt-barra.status-aguardando-decisao { background: #d4d4d8; border-color: #a1a1aa; color: #3f3f46; }
+        body.light .gantt-barra.status-em-revisao,
+        body.light .gantt-barra.status-aguardando-aprovacao { background: #b4b4b8; border-color: #71717a; color: #18181b; }
+        body.light .gantt-barra.status-concluida { background: #3f3f46; border-color: #27272a; color: #fff; }
+        body.light .gantt-barra.status-pausada { background: #f4f4f5; border-color: #e4e4e7; color: #71717a; }
+        body.light .gantt-barra.status-cancelada { background: #f4f4f5; border-color: #e4e4e7; color: #71717a; }
+        body.light .alerta { background: #27272a; color: #fafafa; border-color: #3f3f46; }
+        body.light .alerta.aviso { background: #52525b; color: #fafafa; border-color: #71717a; }
+        body.light .status-nao-iniciada { background: #e4e4e7; color: #52525b; }
+        body.light .status-em-andamento { background: #a1a1aa; color: #18181b; }
+        body.light .status-aguardando-pagamento, body.light .status-aguardando-terceiros, body.light .status-aguardando-decisao { background: #d4d4d8; color: #3f3f46; }
+        body.light .status-em-revisao, body.light .status-aguardando-aprovacao { background: #b4b4b8; color: #18181b; }
+        body.light .status-concluida { background: #3f3f46; color: #fff; }
+        body.light .status-pausada { background: #f4f4f5; color: #71717a; }
+        body.light .status-cancelada { background: #f4f4f5; color: #71717a; }
+        body.light .progress-bar-mini-fill { background: #52525b; }
+        body.light .dica { color: #3f3f46; font-weight: 500; }
+        body.light .orcamento-card .valor { color: #18181b; }
+        body.light .orcamento-card.orc-saldo.negativo .valor { color: #71717a; }
+        body.light .alerta-saldo-negativo { color: #52525b; }
+        .theme-toggle { padding: 6px 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #6b7280; cursor: pointer; font-size: 0.75rem; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.1); color: #9ca3af; }
+        .historico-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.82rem; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1><span>Febre de Arte</span> — Nov 2026</h1>
+            <div class="header-stats">
+                <div class="header-stat">
+                    <div class="progress-bar-mini"><div class="progress-bar-mini-fill" id="kpi-progress-fill" style="width:0%"></div></div>
+                    <span id="kpi-text">0/0</span>
+                </div>
+                <div class="header-stat" id="kpi-countdown" style="color:#9ca3af"></div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="alertas-box" id="alertas-box"></div>
+            <button class="theme-toggle" id="theme-toggle" title="Tema (T)">☀️</button>
+        </div>
+    </header>
+    <div id="resumo-fases" class="resumo-compact"></div>
+
+    <div class="layout">
+        <div class="calendario-wrapper">
+            <div class="abas">
+                <div class="aba" data-aba="biblioteca">Biblioteca</div>
+                <div class="aba ativa" data-aba="cronograma">Cronograma</div>
+                <div class="aba" data-aba="dia-evento">Dia do evento</div>
+                <div class="aba" data-aba="time">Time</div>
+                <div class="aba" data-aba="orcamento">Orçamento</div>
+                <div class="aba" data-aba="ativacoes">Ativações</div>
+                <div class="aba" data-aba="historico">Histórico</div>
+            </div>
+            <div id="painel-biblioteca" class="painel-conteudo">
+                <div class="filtros-bar" style="margin-bottom:12px"><input type="text" id="filtro-bib-busca" placeholder="Buscar na biblioteca..."></div>
+                <div id="lista-biblioteca"></div>
+            </div>
+            <div id="painel-cronograma" class="painel-conteudo ativo cronograma-calendar-model">
+                <div class="toolbar-cronograma">
+                    <div class="filtros-bar">
+                        <input type="text" id="filtro-busca" placeholder="Buscar...">
+                        <select id="filtro-etapa"><option value="">Etapa</option><option value="planejamento">Planejamento</option><option value="producao">Produção</option><option value="execucao">Execução</option><option value="pos-producao">Pós</option></select>
+                        <select id="filtro-status"><option value="">Status</option></select>
+                        <select id="filtro-responsavel"><option value="">Responsável</option></select>
+                    </div>
+                    <div class="export-bar">
+                        <button onclick="exportarGanttPDF()">📄 Gantt</button>
+                        <button onclick="exportarListaTarefas()">📋 Lista</button>
+                    </div>
+                </div>
+                <p class="dica" id="cronograma-dica">Clique na barra para mudar status</p>
+                <div class="gantt-nav" id="gantt-nav">
+                    <div class="gantt-vistas-principais">
+                        <button type="button" class="gantt-vista-principal ativa" data-vista="gantt" title="Cronograma em barras — quando cada tarefa acontece">Gantt</button>
+                        <button type="button" class="gantt-vista-principal" data-vista="lista" title="Tabela — tarefas, responsáveis e datas">Lista</button>
+                        <button type="button" class="gantt-vista-principal" data-vista="etapas" title="Kanban por etapa — fluxo do projeto">Etapas</button>
+                    </div>
+                    <div class="gantt-nav-opcoes" id="gantt-nav-opcoes">
+                        <div class="gantt-vistas" title="Role o mouse no calendário para entrar/sair">
+                            <span class="gantt-zoom-label" id="gantt-zoom-label">Meses</span>
+                        </div>
+                        <div class="gantt-zoom">
+                            <button type="button" id="gantt-zoom-out" title="Zoom out — menos detalhe">−</button>
+                            <span id="gantt-zoom-pct" title="Nível: Ano → Mês → Semana → 3 dias → Dia">···</span>
+                            <button type="button" id="gantt-zoom-in" title="Zoom in — mais detalhe">+</button>
+                        </div>
+                        <button type="button" id="gantt-scroll-hoje" title="Atalho para agenda diária (um dia com horas)">Hoje</button>
+                        <span class="gantt-turno-legend" title="Referência de turnos em todas as visualizações">Manhã · Tarde · Noite</span>
+                        <span class="gantt-nav-info" id="gantt-nav-info">Use as setas ou role para navegar</span>
+                    </div>
+                </div>
+                <div class="cronograma-gantt-layout cronograma-conteudo" id="cronograma-gantt-layout">
+                    <aside class="cronograma-sidebar" id="cronograma-sidebar">
+                        <div class="cronograma-sidebar-header">
+                            <span class="cronograma-sidebar-title">Visão geral</span>
+                            <button type="button" class="cronograma-sidebar-toggle" id="sidebar-toggle" title="Recolher/expandir">◀</button>
+                        </div>
+                        <div class="cronograma-mini-calendario-wrap">
+                            <div class="cronograma-mini-cal-header">
+                                <button type="button" id="mini-cal-prev">‹</button>
+                                <span id="mini-cal-mes-ano">Janeiro 2026</span>
+                                <button type="button" id="mini-cal-next">›</button>
+                            </div>
+                            <div class="cronograma-mini-calendario" id="mini-calendario"></div>
+                        </div>
+                        <div class="cronograma-sidebar-section">
+                            <div class="cronograma-sidebar-label">Etapas (filtro rápido)</div>
+                            <label class="cronograma-check"><input type="checkbox" id="filtro-planejamento" checked> Planejamento</label>
+                            <label class="cronograma-check"><input type="checkbox" id="filtro-producao" checked> Produção</label>
+                            <label class="cronograma-check"><input type="checkbox" id="filtro-execucao" checked> Execução</label>
+                            <label class="cronograma-check"><input type="checkbox" id="filtro-pos" checked> Pós-produção</label>
+                        </div>
+                    </aside>
+                    <div class="gantt-container cronograma-gantt" id="gantt-container">
+                        <div id="gantt"></div>
+                    </div>
+                </div>
+                <div class="cronograma-lista cronograma-conteudo" id="cronograma-lista"></div>
+                <div class="cronograma-etapas cronograma-conteudo" id="cronograma-etapas"></div>
+            </div>
+            <div id="painel-time" class="painel-conteudo">
+                <div class="time-nova-tarefa">
+                    <h3>Nova tarefa</h3>
+                    <input type="text" id="nova-tarefa-nome" placeholder="Nome da tarefa">
+                    <select id="nova-tarefa-prereq"><option value="">Sem pré-requisito</option><option value="def-tema">Definir tema e identidade</option><option value="reservar-local">Reservar local</option><option value="convidar-palestrantes">Convidar palestrantes</option><option value="identidade-visual">Identidade visual</option><option value="midiakit">Criar mídia kit</option><option value="orcamento">Orçamento</option></select>
+                    <label style="display:flex;align-items:center;gap:8px;margin:10px 0;"><input type="checkbox" id="nova-tarefa-paralelo"> Pode ocorrer em paralelo</label>
+                    <button class="modal-btn" onclick="criarNovaTarefa()">Criar tarefa</button>
+                </div>
+                <div class="time-add">
+                    <h3>Agentes</h3>
+                    <input type="text" id="novo-agente" placeholder="Nome">
+                    <button class="modal-btn" onclick="adicionarAgente()">Adicionar</button>
+                </div>
+                <p style="font-size:0.85rem;color:#94a3b8;margin:16px 0 8px">Clique em um agente para abrir seu relatório e editar função, contato e ver suas tarefas.</p>
+                <div id="lista-agentes"></div>
+            </div>
+            <div id="painel-dia-evento" class="painel-conteudo">
+                <h3 style="margin-bottom:16px">Checklist do dia do evento</h3>
+                <p style="font-size:0.85rem;color:#94a3b8;margin-bottom:16px">Tarefas de execução ordenadas para o dia do evento.</p>
+                <div id="checklist-dia-evento"></div>
+            </div>
+            <div id="painel-historico" class="painel-conteudo">
+                <h3 style="margin-bottom:16px">Histórico de alterações</h3>
+                <div id="lista-historico"></div>
+            </div>
+            <div id="painel-orcamento" class="painel-conteudo">
+                <div class="export-bar"><button onclick="exportarOrcamento()">📄 Exportar orçamento</button></div>
+                <div id="grafico-orcamento" class="grafico-barras" style="display:none"></div>
+                <div class="orcamento-resumo" id="orc-resumo">
+                <div class="orcamento-card orc-custo"><h4>Total de custos</h4><div class="valor">R$ 0.00</div></div>
+                <div class="orcamento-card orc-pagar"><h4>A pagar</h4><div class="valor">R$ 0.00</div></div>
+                <div class="orcamento-card orc-pago"><h4>Pagos</h4><div class="valor">R$ 0.00</div></div>
+                <div class="orcamento-card orc-entrada"><h4>Entradas caixa</h4><div class="valor">R$ 0.00</div></div>
+                <div class="orcamento-card orc-saldo"><h4>Saldo (caixa - custos)</h4><div class="valor">R$ 0.00</div></div>
+            </div>
+                <div class="orcamento-tabs">
+                    <button class="ativo" data-vista="todos">Todos os custos</button>
+                    <button data-vista="por-tarefa">Por tarefa</button>
+                    <button data-vista="por-categoria">Por categoria</button>
+                    <button data-vista="bloqueadores">Aguardando pagamento</button>
+                    <button data-vista="resumo">Resumo executivo</button>
+                </div>
+                <div id="orc-lista"><p style="color:#64748b;padding:20px">Nenhum dado para exibir.</p></div>
+            </div>
+            <div id="painel-ativacoes" class="painel-conteudo">
+                <div class="ativ-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+                    <div class="ativ-secao" style="background:rgba(255,255,255,0.04);padding:20px;border-radius:12px">
+                        <h3>Entradas de caixa</h3>
+                        <div class="ativ-form">
+                            <select id="caixa-tipo"><option value="ativacao">Ativação</option><option value="bilheteria">Bilheteria</option><option value="outro">Outro</option></select>
+                            <input type="text" id="caixa-desc" placeholder="Descrição">
+                            <input type="number" id="caixa-valor" placeholder="Valor (R$)" step="0.01">
+                            <button class="modal-btn" onclick="adicionarEntradaCaixa()">Registrar</button>
+                        </div>
+                        <div id="lista-caixa" style="margin-top:16px"><p style="color:#64748b">Nenhuma entrada.</p></div>
+                    </div>
+                    <div class="ativ-secao" style="background:rgba(255,255,255,0.04);padding:20px;border-radius:12px">
+                        <h3>Patrocinadores</h3>
+                        <div class="ativ-form">
+                            <input type="text" id="pat-nome" placeholder="Nome">
+                            <input type="text" id="pat-contato" placeholder="Contato">
+                            <select id="pat-status"><option value="prospect">Prospect</option><option value="em_negociacao">Em negociação</option><option value="confirmado">Confirmado</option></select>
+                            <button class="modal-btn" onclick="adicionarPatrocinador()">Adicionar</button>
+                        </div>
+                        <div id="lista-patrocinadores" style="margin-top:16px"><p style="color:#64748b">Nenhum patrocinador.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="painel-etapas">
+            <div class="painel-etapas-title">Etapas · Cronograma</div>
+            <div id="lista-etapas"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-relatorio">
+        <div class="modal">
+            <button class="modal-fechar" onclick="fecharRelatorio()">×</button>
+            <h2 id="rel-titulo">Reservar local</h2>
+            <div class="modal-secao">
+                <h3>Informações gerais</h3>
+                <div class="modal-campo"><label>Objetivo</label><textarea id="rel-objetivo" rows="2" placeholder="O que esta tarefa busca alcançar"></textarea></div>
+                <div class="modal-campo"><label>Escopo</label><textarea id="rel-escopo" rows="2" placeholder="O que está incluso nesta tarefa"></textarea></div>
+                <div class="modal-campo"><label>Entregáveis</label><textarea id="rel-entregaveis" rows="2" placeholder="O que deve ser entregue ao concluir"></textarea></div>
+                <div class="modal-campo"><label>Critérios de aceite</label><textarea id="rel-criterios" rows="2" placeholder="Como saber que a tarefa está concluída com qualidade"></textarea></div>
+                <div class="modal-campo"><label>Prazo previsto</label><input type="text" id="rel-prazo" placeholder="Ex: até 15/03, final de março"></div>
+                <div class="modal-campo"><label>Riscos</label><textarea id="rel-riscos" rows="2" placeholder="O que pode atrasar ou impedir"></textarea></div>
+                <div class="modal-campo"><label>Dependências externas</label><textarea id="rel-dep-externas" rows="2" placeholder="Fornecedores, terceiros, autorizações"></textarea></div>
+                <div class="modal-campo"><label>Observações</label><textarea id="rel-observacoes" rows="2" placeholder="Notas e observações"></textarea></div>
+                <div class="modal-campo"><label>Prioridade</label><select id="rel-prioridade"><option value="baixa">Baixa</option><option value="media">Média</option><option value="alta">Alta</option><option value="critica">Crítica</option></select></div>
+            </div>
+            <div class="modal-secao">
+                <h3>Execução</h3>
+                <div class="modal-campo"><label>Responsável</label><span id="rel-responsavel">—</span></div>
+                <div class="modal-campo"><label>Status</label><span id="rel-status">Aguardando aprovação</span></div>
+                <div class="modal-campo"><label>Tempo especulado (IA)</label><span id="rel-tempo">2 semanas</span></div>
+                <div class="modal-campo"><label>Data/hora início real</label><input type="datetime-local" id="rel-inicio-real" onchange="salvarCampoRelatorio('dataInicioReal', this.value)"></div>
+                <div class="modal-campo"><label>Data/hora conclusão real</label><input type="datetime-local" id="rel-conclusao-real" onchange="salvarCampoRelatorio('dataConclusaoReal', this.value)"></div>
+            </div>
+            <div class="modal-secao">
+                <h3>Custos da tarefa</h3>
+                <div id="rel-custos" style="margin-bottom:12px"></div>
+                <div class="custo-add-inline" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:8px">
+                    <input type="text" id="rel-custo-desc" placeholder="Descrição" style="flex:1;min-width:120px">
+                    <input type="number" id="rel-custo-valor" placeholder="R$" step="0.01" style="width:100px">
+                    <select id="rel-custo-cat"><option value="infraestrutura">infraestrutura</option><option value="divulgação">divulgação</option><option value="pessoal">pessoal</option><option value="palestrantes">palestrantes</option><option value="operacao">operacao</option><option value="outro">outro</option></select>
+                    <button class="modal-btn" onclick="adicionarCustoRelatorio()">+ Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-agente">
+        <div class="modal">
+            <button class="modal-fechar" onclick="fecharRelatorioAgente()">×</button>
+            <h2 id="ag-rel-titulo">Relatório do agente</h2>
+            <div class="modal-secao">
+                <h3>Perfil (para os colegas entenderem sua função)</h3>
+                <div class="modal-campo"><label>Função no projeto</label><input type="text" id="ag-funcao" placeholder="Ex: Produção, Divulgação"></div>
+                <div class="modal-campo"><label>Área de atuação</label><input type="text" id="ag-area" placeholder="Ex: Comunicação, Logística"></div>
+                <div class="modal-campo"><label>Responsabilidades principais</label><textarea id="ag-responsabilidades" rows="2" placeholder="O que você cuida neste projeto"></textarea></div>
+                <div class="modal-campo"><label>Disponibilidade</label><input type="text" id="ag-disponibilidade" placeholder="Ex: segunda a quinta, meio período"></div>
+                <div class="modal-campo"><label>Como posso ajudar</label><textarea id="ag-ajuda" rows="2" placeholder="O que colegas podem solicitar a você"></textarea></div>
+                <div class="modal-campo"><label>Contato</label><input type="text" id="ag-contato" placeholder="Email ou telefone"></div>
+            </div>
+            <div class="modal-secao">
+                <h3>Tarefas em que está envolvido</h3>
+                <div id="ag-tarefas"></div>
+            </div>
+            <div class="modal-secao">
+                <h3>Agenda (períodos das tarefas)</h3>
+                <div id="ag-agenda"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="prompt-overlay" id="prompt-conclusao">
+        <div class="prompt-box">
+            <p><strong>Esta tarefa foi finalizada hoje?</strong></p>
+            <p style="font-size:0.9rem;color:#94a3b8;margin:8px 0">Se sim, a data de hoje será registrada. Se não, informe a data de conclusão.</p>
+            <input type="date" id="prompt-data-conclusao">
+            <div style="display:flex;gap:8px;margin-top:16px">
+                <button class="modal-btn" onclick="confirmarConclusao(true)">Sim, hoje</button>
+                <button class="modal-btn secundario" onclick="confirmarConclusao(false)">Não, use a data informada</button>
+                <button class="modal-btn secundario" onclick="document.getElementById('prompt-conclusao').classList.remove('ativo')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+        const MESES_COMPLETOS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const DIAS_SEMANA_COMPLETOS = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+        const SEMANAS_POR_MES = 4;
+        const TOTAL_SEMANAS = 48;
+        const KEY = 'febre-arte-2026';
+        const TAREFAS_VERSAO = 3;
+        const DATA_EVENTO = '2026-11-15'; // Configurável
+        let historico = [];
+        let filtros = { busca: '', etapa: '', status: '', responsavel: '', bibBusca: '', etapasAtivas: ['planejamento','producao','execucao','pos-producao'] };
+        const STATUS_LISTA = ['nao-iniciada','em-andamento','aguardando-pagamento','aguardando-terceiros','aguardando-decisao','em-revisao','aguardando-aprovacao','concluida','pausada','cancelada'];
+        const STATUS_LABELS = { 'nao-iniciada':'Não iniciada', 'em-andamento':'Em andamento', 'aguardando-pagamento':'Aguardando pagamento de custo', 'aguardando-terceiros':'Aguardando terceiros', 'aguardando-decisao':'Aguardando decisão', 'em-revisao':'Em revisão', 'aguardando-aprovacao':'Aguardando aprovação', 'concluida':'Concluída', 'pausada':'Pausada', 'cancelada':'Cancelada' };
+        const CATEGORIAS_CUSTO = ['infraestrutura','divulgação','pessoal','palestrantes','operacao','outro'];
+
+        const BIBLIOTECA_TAREFAS = [
+            { id: 'def-tema', txt: 'Retomar tema ou criar nova identidade; alinhar com o momento atual', preReq: true, prereqDe: null, paralelo: false, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'def-data-horario', txt: 'Checar calendário, concorrentes, feriados e disponibilidade do público', preReq: false, prereqDe: null, paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'def-formato', txt: 'Validar formato (presencial/híbrido/online); considerar o que deu certo', preReq: false, prereqDe: null, paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'def-publico', txt: 'Atualizar perfil do público e canais de comunicação', preReq: false, prereqDe: 'def-tema', paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'def-capacidade', txt: 'Revisar espaço e capacidade; ajustar se necessário', preReq: false, prereqDe: null, paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'reservar-local', txt: 'Renovar reserva ou buscar novo local; conferir contrato e prazos', preReq: false, prereqDe: null, paralelo: false, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'equipamentos', txt: 'Listar equipamentos (som, projeção); alugar ou confirmar suporte técnico', preReq: false, prereqDe: 'reservar-local', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'layout', txt: 'Adaptar layout ao novo local e número de pessoas', preReq: false, prereqDe: 'reservar-local', paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'acessibilidade', txt: 'Checar normas e exigências atuais do local (acessibilidade e segurança)', preReq: false, prereqDe: 'reservar-local', paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'recepcao-sinalizacao', txt: 'Definir fluxo de entrada e placas; rever se o local mudou', preReq: false, prereqDe: 'layout', paralelo: false, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'convidar-palestrantes', txt: 'Atualizar lista; renovar convites e buscar novos nomes', preReq: false, prereqDe: 'def-tema', paralelo: false, tempoEspeculado: '3 semanas', grupo: 'planejamento' },
+            { id: 'grade-horarios', txt: 'Montar nova grade; negociar horários com palestrantes', preReq: false, prereqDe: 'convidar-palestrantes', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'titulo-resumo-material', txt: 'Enviar briefing; definir prazos de envio de título, resumo e material', preReq: false, prereqDe: 'convidar-palestrantes', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'mediacao-moderador', txt: 'Definir quem media; alinhar pauta e fluxo', preReq: false, prereqDe: 'grade-horarios', paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'materiais-apoio', txt: 'Pedir slides, links, materiais; revisar antes do evento', preReq: false, prereqDe: 'titulo-resumo-material', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'testar-apresentacoes', txt: 'Agendar testes técnicos; checar equipamento com cada palestrante', preReq: false, prereqDe: 'materiais-apoio', paralelo: false, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'tradutor', txt: 'Verificar necessidade e disponibilidade de tradutor/intérprete; fechar contrato', preReq: false, prereqDe: 'convidar-palestrantes', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'orcamento', txt: 'Atualizar preços; incluir novos itens e ajustes de 2026', preReq: false, prereqDe: null, paralelo: true, tempoEspeculado: '2 semanas', grupo: 'planejamento' },
+            { id: 'fluxo-caixa', txt: 'Definir fluxo de caixa e metas de venda (inscrições, parceiros)', preReq: false, prereqDe: 'orcamento', paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'mapear-parceiros', txt: 'Atualizar lista; priorizar quem já apoiou e novos nomes', preReq: false, prereqDe: null, paralelo: true, tempoEspeculado: '1 semana', grupo: 'planejamento' },
+            { id: 'identidade-visual', txt: 'Atualizar identidade; refazer arte para novas datas e palestrantes', preReq: false, prereqDe: 'def-tema', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'canais', txt: 'Listar canais (Instagram, LinkedIn, email); ajustar estratégia de cada um', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'cronograma-publicacoes', txt: 'Montar calendário editorial com datas e tipos de post', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'produzir-conteudo', txt: 'Produzir nova leva de conteúdo; reutilizar o que ainda vale', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '3 semanas', grupo: 'producao' },
+            { id: 'divulgar-palestrantes', txt: 'Publicar palestrantes e programação em etapas', preReq: false, prereqDe: 'grade-horarios', paralelo: false, tempoEspeculado: '3 semanas', grupo: 'producao' },
+            { id: 'email-marketing', txt: 'Atualizar lista; montar sequência de envios', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'parcerias-divulgacao', txt: 'Listar parceiros; renovar parcerias e definir apoios de divulgação', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'kpis-divulgacao', txt: 'Revisar metas (alcance, engajamento, inscrições); acompanhar semanalmente', preReq: false, prereqDe: 'cronograma-publicacoes', paralelo: true, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'midiakit', txt: 'Criar e atualizar mídia kit para patrocinadores', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'proposta-parceria', txt: 'Atualizar valores e benefícios; refazer apresentação se necessário', preReq: false, prereqDe: 'midiakit', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'fechar-acordos', txt: 'Renovar contratos; cumprir contrapartidas combinadas', preReq: false, prereqDe: 'proposta-parceria', paralelo: false, tempoEspeculado: '3 semanas', grupo: 'producao' },
+            { id: 'plataforma-inscricao', txt: 'Confirmar ou trocar ferramenta; configurar formulário e pagamento', preReq: false, prereqDe: 'grade-horarios', paralelo: false, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'valor-inscricao', txt: 'Decidir preço; abrir/liberar inscrições no prazo certo', preReq: false, prereqDe: 'plataforma-inscricao', paralelo: false, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'comunicar-abertura', txt: 'Divulgar data e link; preparar mensagens e posts', preReq: false, prereqDe: 'valor-inscricao', paralelo: false, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'controlar-inscritos', txt: 'Exportar lista; organizar por status (confirmado, pendente)', preReq: false, prereqDe: 'comunicar-abertura', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'confirmacao-lembrete', txt: 'Atualizar modelos de email; agendar envios automáticos', preReq: false, prereqDe: 'controlar-inscritos', paralelo: false, tempoEspeculado: '1 semana', grupo: 'producao' },
+            { id: 'credenciamento', txt: 'Definir modelo de credencial; imprimir ou gerar QR code', preReq: false, prereqDe: 'controlar-inscritos', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'certificados', txt: 'Atualizar modelo; definir critérios e prazos de entrega', preReq: false, prereqDe: 'grade-horarios', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'contratar-fornecedores', txt: 'Listar fornecedores; confirmar prazos e formas de pagamento', preReq: false, prereqDe: 'orcamento', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'material-grafico', txt: 'Produzir material gráfico para o evento', preReq: false, prereqDe: 'identidade-visual', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'logistica-evento', txt: 'Coordenar montagem e desmontagem; definir horários com fornecedores e local', preReq: false, prereqDe: 'comunicar-abertura', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'producao' },
+            { id: 'equipe-funcoes', txt: 'Listar funções; escalar equipe; fazer briefings', preReq: false, prereqDe: 'logistica-evento', paralelo: false, tempoEspeculado: '1 semana', grupo: 'execucao' },
+            { id: 'checklist-dia', txt: 'Atualizar checklist; incluir lições aprendidas do ano anterior', preReq: false, prereqDe: 'equipe-funcoes', paralelo: false, tempoEspeculado: '1 semana', grupo: 'execucao' },
+            { id: 'execucao-evento', txt: 'Execução do evento (credenciamento, palestrantes, timing, imprevistos)', preReq: false, prereqDe: 'checklist-dia', paralelo: false, tempoEspeculado: '1 semana', grupo: 'execucao' },
+            { id: 'captar-fotos-videos', txt: 'Definir quem registra; alinhar uso de imagens depois', preReq: false, prereqDe: 'execucao-evento', paralelo: false, tempoEspeculado: '1 semana', grupo: 'execucao' },
+            { id: 'divulgar-parceiros', txt: 'Incluir logos, menções e ações de branding dos parceiros no evento', preReq: false, prereqDe: 'fechar-acordos', paralelo: true, tempoEspeculado: '1 semana', grupo: 'execucao' },
+            { id: 'fechar-contas', txt: 'Fazer fechamento; guardar comprovantes e relatórios', preReq: false, prereqDe: 'execucao-evento', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'pos-producao' },
+            { id: 'prestacao-contas', txt: 'Atualizar modelos; enviar para parceiros/patrocinadores', preReq: false, prereqDe: 'fechar-contas', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'pos-producao' },
+            { id: 'agradecer', txt: 'Preparar mensagens; agradecer participantes e palestrantes', preReq: false, prereqDe: 'execucao-evento', paralelo: false, tempoEspeculado: '1 semana', grupo: 'pos-producao' },
+            { id: 'enviar-materiais', txt: 'Organizar arquivos; definir link e prazos de envio de materiais e gravações', preReq: false, prereqDe: 'captar-fotos-videos', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'pos-producao' },
+            { id: 'feedback-avaliacao', txt: 'Revisar formulário; planejar coleta e análise dos dados', preReq: false, prereqDe: 'agradecer', paralelo: false, tempoEspeculado: '2 semanas', grupo: 'pos-producao' },
+            { id: 'publicar-fotos', txt: 'Editar e publicar; pedir autorização de imagem se necessário', preReq: false, prereqDe: 'enviar-materiais', paralelo: true, tempoEspeculado: '2 semanas', grupo: 'pos-producao' },
+            { id: 'licoes-aprendidas', txt: 'Fazer reunião de retrospectiva; documentar para o próximo ano', preReq: false, prereqDe: 'prestacao-contas', paralelo: false, tempoEspeculado: '1 semana', grupo: 'pos-producao' }
+        ];
+        let TAREFAS = []; // Tarefas no cronograma ativo (adicionadas da biblioteca pelos agentes)
+        let ganttData = {};
+        let agentes = {}; // { nome: { funcao, area, contato } }
+        let custos = {};
+        let caixa = [];
+        let patrocinadores = [];
+        let tarefaRelatorioAberta = null;
+        let agenteRelatorioAberto = null;
+        let pendenteConclusao = null;
+        let vistaOrcamento = 'todos';
+        let arrastandoTaskId = null;
+        let fantasmaEl = null;
+        let temaEscuro = true;
+        let vistaGantt = 'meses';
+        let vistaCompacta = false;
+        let zoomGantt = 100;
+        let vistaPrincipal = 'gantt';
+        let zoomNivel = 1;
+        let janelaMesAtual = (() => { const h = new Date(); return h.getFullYear() === 2026 ? Math.min(11, h.getMonth()) : 1; })();
+        let janelaSemanaInicio = (() => {
+            const diaHoje = diaAbsolutoDeData(new Date());
+            return Math.max(0, Math.min(47, semanaContendoDia(diaHoje)));
+        })();
+        let janelaDiasInicio = (() => {
+            const diaHoje = diaAbsolutoDeData(new Date());
+            const segunda = segundaOfWeek(semanaContendoDia(diaHoje));
+            return Math.max(0, Math.min(334, diaAbsolutoDeData(segunda)));
+        })();
+        let miniCalMesAtual = (() => { const h = new Date(); return h.getFullYear() === 2026 ? h.getMonth() : 0; })();
+        let vistaAgendaDiaria = false;
+        const DIAS_MES = [31,28,31,30,31,30,31,31,30,31,30,31];
+        const HORA_INICIO = 5;
+        const HORA_FIM = 23;
+        const HORAS_AGENDA_DIA = (() => {
+            const arr = [];
+            for (let h = HORA_INICIO; h <= HORA_FIM; h++) {
+                arr.push(h + 'h');
+                if (h < HORA_FIM) arr.push(h + 'h30');
+            }
+            return arr;
+        })();
+        const HORAS_SEMANA = (() => {
+            const arr = [];
+            for (let h = HORA_INICIO; h <= HORA_FIM; h++) arr.push(h + 'h');
+            return arr;
+        })();
+        const TURNOS = [{ id: 'manha', label: 'Manhã', inicio: 6, fim: 12 }, { id: 'tarde', label: 'Tarde', inicio: 12, fim: 18 }, { id: 'noite', label: 'Noite', inicio: 18, fim: 23 }];
+        const DIAS_SEMANA = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        const DIAS_SEMANA_COMPLETOS_ISO = ['Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado','Domingo'];
+        const SEGUNDA_SEMANA_0 = new Date(2025, 11, 29);
+        function segundaOfWeek(s) { const d = new Date(SEGUNDA_SEMANA_0); d.setDate(d.getDate() + s * 7); return d; }
+        function semanaContendoDia(absDay) { return Math.floor((absDay + 3) / 7); }
+        function diaAbsolutoDeData(d) { return Math.floor((d - new Date(2026, 0, 1)) / 86400000); }
+
+        function atualizarZoomUI() {
+            const labels = ['Ano', 'Mês', 'Semana', '3 dias', 'Dia'];
+            const el = document.getElementById('gantt-zoom-label');
+            const pct = document.getElementById('gantt-zoom-pct');
+            const navInfo = document.getElementById('gantt-nav-info');
+            if (el) el.textContent = labels[zoomNivel] ?? 'Meses';
+            if (pct) pct.textContent = labels[zoomNivel] ?? '···';
+            if (navInfo) {
+                if (zoomNivel === 1) navInfo.textContent = MESES_COMPLETOS[janelaMesAtual] + ' 2026 — Arraste para navegar';
+                else if (zoomNivel === 2) {
+                    const dIni = segundaOfWeek(janelaSemanaInicio);
+                    const dFim = new Date(dIni);
+                    dFim.setDate(dFim.getDate() + 6);
+                    navInfo.textContent = `Semana ${janelaSemanaInicio + 1} (${dIni.getDate()} a ${dFim.getDate()} ${MESES[dIni.getMonth()]}) — Seg a Dom · Arraste para navegar`;
+                } else if (zoomNivel === 3) navInfo.textContent = '3 dias — Arraste para navegar';
+                else if (zoomNivel === 4) navInfo.textContent = 'Agenda diária — Arraste para navegar';
+                else navInfo.textContent = 'Arraste o cronograma para mover no tempo';
+            }
+        }
+        function tempoEspeculadoParaMeses(s) {
+            if (!s || typeof s !== 'string') return 1;
+            const n = s.toLowerCase();
+            if (n.includes('3') || n.includes('três')) return 3;
+            if (n.includes('2') || n.includes('duas')) return 2;
+            return 1;
+        }
+        function tempoEspeculadoParaSemanas(s) {
+            if (!s || typeof s !== 'string') return 4;
+            const n = s.toLowerCase();
+            const numMatch = n.match(/(\d+)/);
+            const num = numMatch ? parseInt(numMatch[1], 10) : 1;
+            if (n.includes('semana')) return Math.max(1, Math.min(48, num));
+            if (n.includes('mês') || n.includes('mes')) return Math.max(1, Math.min(48, num * 4));
+            return Math.max(1, Math.min(48, num));
+        }
+        function mostrarFantasma(row, colIndex, tempoSpec) {
+            if (!row || colIndex == null) return;
+            const cellBarra = row.querySelector('.gantt-cell-barra');
+            if (!cellBarra) return;
+            const n = zoomNivel;
+            const numCols = n === 0 ? 12 : (n === 1 ? TOTAL_SEMANAS : 14);
+            let inicio, duracao;
+            if (n === 0) {
+                const mesesDur = tempoEspeculadoParaMeses(tempoSpec);
+                inicio = Math.max(0, Math.min(11, colIndex));
+                duracao = Math.max(1, Math.min(12 - inicio, mesesDur));
+            } else if (n === 1) {
+                const semanasDur = tempoEspeculadoParaSemanas(tempoSpec);
+                inicio = Math.max(0, Math.min(47, colIndex));
+                duracao = Math.max(1, Math.min(TOTAL_SEMANAS - inicio, semanasDur));
+            } else {
+                inicio = Math.max(0, Math.min(13, colIndex));
+                const diasDur = tempoEspeculadoParaSemanas(tempoSpec) * 7;
+                duracao = Math.max(1, Math.min(14 - inicio, diasDur));
+            }
+            if (!fantasmaEl) {
+                fantasmaEl = document.createElement('div');
+                fantasmaEl.className = 'gantt-fantasma';
+            }
+            const spec = (tempoSpec || '—').toString();
+            fantasmaEl.innerHTML = `<div class="tempo">~${spec}</div><div class="nota">Tempo especulado pela IA para conclusão dessa tarefa</div>`;
+            fantasmaEl.style.left = (inicio / numCols) * 100 + '%';
+            fantasmaEl.style.width = (duracao / numCols) * 100 + '%';
+            if (!fantasmaEl.parentNode) cellBarra.appendChild(fantasmaEl);
+        }
+        function esconderFantasma() {
+            if (fantasmaEl && fantasmaEl.parentNode) fantasmaEl.parentNode.removeChild(fantasmaEl);
+            fantasmaEl = null;
+            arrastandoTaskId = null;
+        }
+
+        function idUnico() { return 't' + Date.now() + Math.random().toString(36).slice(2, 7); }
+        function obterTarefaPorId(id) { return TAREFAS.find(x=>x.id===id) || BIBLIOTECA_TAREFAS.find(x=>x.id===id); }
+        function etapaClass(grupo) { const g = (grupo || 'planejamento'); return ['planejamento','producao','execucao','pos-producao'].includes(g) ? 'etapa-' + g : 'etapa-planejamento'; }
+        function tarefaNoCronograma(id) { return TAREFAS.some(t => t.id === id); }
+        function adicionarAoCronograma(taskId) {
+            if (tarefaNoCronograma(taskId)) return;
+            const lib = BIBLIOTECA_TAREFAS.find(t => t.id === taskId);
+            if (!lib) return;
+            TAREFAS.push({ ...lib });
+            obterGantt(taskId);
+            salvar();
+            renderizarListaTarefas();
+            renderizarCronograma();
+            renderizarBiblioteca();
+            renderizarResumo();
+            renderizarKPIs();
+            atualizarSelectPrereq();
+            atualizarFiltrosSelect();
+        }
+        function renderizarBiblioteca() {
+            const el = document.getElementById('lista-biblioteca');
+            const grupoLabels = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós-produção' };
+            const grupos = {};
+            BIBLIOTECA_TAREFAS.forEach(t => {
+                const g = t.grupo || 'planejamento';
+                if (!grupos[g]) grupos[g] = [];
+                grupos[g].push(t);
+            });
+            const ordemEtapas = ['planejamento', 'producao', 'execucao', 'pos-producao'];
+            const bibBusca = (filtros.bibBusca || '').toLowerCase();
+            el.innerHTML = ordemEtapas.map(gr => {
+                const itens = (grupos[gr] || []).filter(t => !bibBusca || t.txt.toLowerCase().includes(bibBusca)).map(t => {
+                    const jaNoCronograma = tarefaNoCronograma(t.id);
+                    const prereqTxt = t.prereqDe ? obterTarefaPorId(t.prereqDe)?.txt : null;
+                    return `<div class="card ${etapaClass(t.grupo)} ${t.paralelo?'paralelo':''}" style="opacity:${jaNoCronograma?0.7:1}">
+                        <div><div>${t.txt}</div>${prereqTxt ? '<div class="hint" style="font-size:0.72rem;color:#64748b">↳ ' + prereqTxt + '</div>' : ''}</div>
+                        <button class="modal-btn ${jaNoCronograma?'secundario':''}" onclick="adicionarAoCronograma('${t.id}')" ${jaNoCronograma?'disabled':''}>${jaNoCronograma?'Já no cronograma':'+ Adicionar'}</button>
+                    </div>`;
+                }).join('');
+                if (!itens) return '';
+                return `<div class="etapa-bloco ${gr}" style="margin-bottom:20px"><div class="etapa-titulo">${grupoLabels[gr] || gr}</div>${itens}</div>`;
+            }).join('');
+        }
+        function renderizarResumo() {
+            const el = document.getElementById('resumo-fases');
+            if (!el) return;
+            const fas = { planejamento: [], producao: [], execucao: [], 'pos-producao': [] };
+            TAREFAS.forEach(t => {
+                const g = t.grupo || 'planejamento';
+                if (fas[g]) fas[g].push(t);
+            });
+            const totalLib = { planejamento: 21, producao: 26, execucao: 5, 'pos-producao': 7 };
+            const labels = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós' };
+            el.innerHTML = Object.entries(fas).map(([k, arr]) => {
+                const concluidas = arr.filter(t => (obterGantt(t.id).status || '') === 'concluida').length;
+                const total = arr.length;
+                return `<span><strong>${labels[k]}:</strong> ${total} agendada(s), ${concluidas} concluída(s)</span>`;
+            }).join(' · ');
+        }
+
+        function carregar() {
+            const s = localStorage.getItem(KEY);
+            if (s) {
+                const d = JSON.parse(s);
+                if (d.versao === TAREFAS_VERSAO) {
+                    TAREFAS = d.tarefas || [];
+                } else if (d.tarefas && d.tarefas.length > 0) {
+                    TAREFAS = d.tarefas;
+                }
+                ganttData = d.gantt || {};
+                agentes = d.agentes || {};
+                if (Array.isArray(d.agentes)) agentes = Object.fromEntries(d.agentes.map(n => [n, { funcao: '', area: '', contato: '', responsabilidades: '', disponibilidade: '', ajuda: '' }]));
+                else Object.keys(agentes).forEach(n => { const a = agentes[n]; if (a && typeof a === 'object') { a.responsabilidades = a.responsabilidades ?? ''; a.disponibilidade = a.disponibilidade ?? ''; a.ajuda = a.ajuda ?? ''; } });
+                custos = d.custos || {};
+                caixa = d.caixa || [];
+                patrocinadores = d.patrocinadores || [];
+                historico = d.historico || [];
+                if (d.temaEscuro !== undefined) temaEscuro = d.temaEscuro;
+            }
+        }
+        function salvar() {
+            localStorage.setItem(KEY, JSON.stringify({ versao: TAREFAS_VERSAO, tarefas: TAREFAS, gantt: ganttData, agentes, custos, caixa, patrocinadores, historico, temaEscuro }));
+        }
+        function addHistorico(taskId, campo, valorAntigo, valorNovo) {
+            if (valorAntigo === valorNovo) return;
+            historico.unshift({ taskId, campo, valorAntigo: String(valorAntigo).slice(0,50), valorNovo: String(valorNovo).slice(0,50), quando: new Date().toISOString() });
+            if (historico.length > 200) historico = historico.slice(0, 200);
+        }
+
+        function obterGantt(taskId) {
+            if (!ganttData[taskId]) ganttData[taskId] = { inicioMes: 1, duracaoMeses: 1, inicioSemana: 4, duracaoSemanas: 4, responsavel: '', status: 'nao-iniciada', objetivo: '', escopo: '', entregaveis: '', observacoes: '', dataInicioReal: '', dataConclusaoReal: '', prazoPrevisto: '', riscos: '', dependenciasExternas: '', criteriosAceite: '', prioridade: 'media' };
+            const g = ganttData[taskId];
+            if (g.inicioSemana == null) { g.inicioSemana = (g.inicioMes ?? 0) * SEMANAS_POR_MES; g.duracaoSemanas = (g.duracaoMeses || 1) * SEMANAS_POR_MES; }
+            sincronizarMesDeSemana(g);
+            return g;
+        }
+        function sincronizarMesDeSemana(g) {
+            const ini = g.inicioSemana ?? 0;
+            const dur = g.duracaoSemanas ?? 4;
+            g.inicioMes = Math.floor(ini / SEMANAS_POR_MES);
+            const fimSemana = ini + Math.max(1, dur) - 1;
+            const mesFim = Math.min(11, Math.floor(fimSemana / SEMANAS_POR_MES));
+            g.duracaoMeses = Math.max(1, mesFim - g.inicioMes + 1);
+        }
+
+        function tarefaTemCustosNaoPagos(taskId) {
+            return (custos[taskId] || []).some(c => c.status === 'nao-pago');
+        }
+
+        function definirStatusComLogica(taskId, novoStatus) {
+            const g = obterGantt(taskId);
+            if (novoStatus === 'concluida') {
+                pendenteConclusao = { taskId };
+                document.getElementById('prompt-data-conclusao').value = new Date().toISOString().slice(0, 10);
+                document.getElementById('prompt-conclusao').classList.add('ativo');
+                return;
+            }
+            const oldStatus = g.status;
+            g.status = novoStatus;
+            if (novoStatus === 'em-andamento' && !g.dataInicioReal) g.dataInicioReal = new Date().toISOString().slice(0, 16);
+            addHistorico(taskId, 'status', oldStatus, novoStatus);
+            salvar();
+            renderizarCronograma();
+            renderizarListaTarefas();
+            renderizarKPIs();
+        }
+
+        function confirmarConclusao(hoje) {
+            if (!pendenteConclusao) return;
+            const taskId = pendenteConclusao.taskId;
+            const g = obterGantt(taskId);
+            g.status = 'concluida';
+            g.dataConclusaoReal = hoje ? new Date().toISOString().slice(0, 16) : (document.getElementById('prompt-data-conclusao').value || new Date().toISOString().slice(0, 10)) + 'T12:00:00';
+            pendenteConclusao = null;
+            document.getElementById('prompt-conclusao').classList.remove('ativo');
+            addHistorico(taskId, 'status', 'em-andamento', 'concluida');
+            salvar();
+            renderizarCronograma();
+            renderizarListaTarefas();
+            renderizarResumo();
+            renderizarKPIs();
+            if (tarefaRelatorioAberta === taskId) abrirRelatorio(taskId);
+        }
+
+        function renderizarListaTarefas() {
+            renderizarPainelEtapas();
+        }
+        function renderizarPainelEtapas() {
+            const el = document.getElementById('lista-etapas');
+            if (!el) return;
+            const ordemEtapas = ['planejamento', 'producao', 'execucao', 'pos-producao'];
+            const etapaLabels = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós-produção' };
+            const grupos = {};
+            TAREFAS.forEach(t => {
+                const gr = ['planejamento','producao','execucao','pos-producao'].includes(t.grupo) ? t.grupo : 'planejamento';
+                if (!grupos[gr]) grupos[gr] = [];
+                grupos[gr].push(t);
+            });
+            el.innerHTML = ordemEtapas.map(gr => {
+                const arr = grupos[gr] || [];
+                const concluidas = arr.filter(t => (obterGantt(t.id).status || '') === 'concluida').length;
+                const total = arr.length;
+                return `<div class="etapa-bloco ${gr}">
+                    <div class="etapa-titulo">${etapaLabels[gr]}</div>
+                    <div style="font-size:0.85rem;color:#94a3b8">${total} agendada(s) · ${concluidas} concluída(s)</div>
+                </div>`;
+            }).join('');
+            renderizarResumo();
+        }
+        function renderizarKPIs() {
+            const total = TAREFAS.length;
+            const concluidas = TAREFAS.filter(t => (obterGantt(t.id).status || '') === 'concluida').length;
+            const pct = total > 0 ? Math.round((concluidas/total)*100) : 0;
+            document.getElementById('kpi-progress-fill').style.width = pct + '%';
+            document.getElementById('kpi-text').textContent = concluidas + '/' + total;
+            const ev = new Date(DATA_EVENTO);
+            const hoje = new Date();
+            hoje.setHours(0,0,0,0); ev.setHours(0,0,0,0);
+            const dias = Math.ceil((ev - hoje) / (24*60*60*1000));
+            document.getElementById('kpi-countdown').innerHTML = dias > 0 ? '⏱ ' + dias + ' dias até o evento' : (dias === 0 ? '⏱ Hoje é o evento!' : '⏱ Evento passou');
+            const alertas = calcularAlertas();
+            document.getElementById('alertas-box').innerHTML = alertas.map(a => `<span class="alerta ${a.tipo}">${a.msg}</span>`).join('');
+        }
+        function calcularAlertas() {
+            const alertas = [];
+            const hoje = new Date();
+            TAREFAS.forEach(t => {
+                const g = obterGantt(t.id);
+                const status = g.status || 'nao-iniciada';
+                if (status === 'concluida') return;
+                const im = g.inicioMes ?? 1;
+                const dm = g.duracaoMeses || 1;
+                const fimPrevisto = g.dataConclusaoReal ? new Date(g.dataConclusaoReal) : new Date(hoje.getFullYear(), im + dm - 1, 15);
+                if (fimPrevisto < hoje && status !== 'cancelada') alertas.push({ tipo: 'erro', msg: 'Atrasada: ' + t.txt.slice(0,30) + '...' });
+                if (status === 'em-andamento' && tarefaTemCustosNaoPagos(t.id)) alertas.push({ tipo: 'erro', msg: 'Custo bloqueando: ' + t.txt.slice(0,25) + '...' });
+                if (t.prereqDe) {
+                    const prereq = TAREFAS.find(x => x.id === t.prereqDe);
+                    if (prereq && (obterGantt(prereq.id).status || '') !== 'concluida') alertas.push({ tipo: 'aviso', msg: 'Pré-req pendente: ' + t.txt.slice(0,25) + '...' });
+                }
+                if (status === 'em-andamento' && g.dataInicioReal) {
+                    const ini = new Date(g.dataInicioReal);
+                    const diasParada = Math.floor((hoje - ini) / (24*60*60*1000));
+                    if (diasParada > 14) alertas.push({ tipo: 'aviso', msg: 'Parada há ' + diasParada + 'd: ' + t.txt.slice(0,20) + '...' });
+                }
+            });
+            const totalCustos = Object.values(custos).flat().reduce((s,c) => s + (parseFloat(c.valor)||0), 0);
+            const totalCaixa = caixa.reduce((s,c) => s + (parseFloat(c.valor)||0), 0);
+            if (totalCaixa < totalCustos && totalCustos > 0) alertas.push({ tipo: 'erro', msg: 'Saldo negativo' });
+            return alertas.slice(0, 8);
+        }
+        function tarefasFiltradas() {
+            return TAREFAS.filter(t => {
+                if (filtros.busca && !t.txt.toLowerCase().includes(filtros.busca.toLowerCase())) return false;
+                if (filtros.etapa && t.grupo !== filtros.etapa) return false;
+                if (!filtros.etapa && filtros.etapasAtivas && filtros.etapasAtivas.length > 0 && !filtros.etapasAtivas.includes(t.grupo)) return false;
+                const g = obterGantt(t.id);
+                if (filtros.status && (g.status || 'nao-iniciada') !== filtros.status) return false;
+                if (filtros.responsavel && (g.responsavel || '').trim() !== filtros.responsavel) return false;
+                return true;
+            });
+        }
+        function exportarGanttPDF() { window.print(); }
+        function exportarListaTarefas() {
+            const linhas = TAREFAS.map(t => {
+                const g = obterGantt(t.id);
+                return [t.txt, t.grupo || '', g.responsavel || '', STATUS_LABELS[g.status] || '', g.dataInicioReal || '', g.dataConclusaoReal || ''].join('\t');
+            });
+            const csv = 'Tarefa\tEtapa\tResponsável\tStatus\tInício real\tConclusão real\n' + linhas.join('\n');
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'tarefas-' + new Date().toISOString().slice(0,10) + '.csv'; a.click();
+        }
+        function exportarOrcamento() {
+            let total = 0, pago = 0;
+            const itens = [];
+            Object.keys(custos).forEach(taskId => {
+                (custos[taskId] || []).forEach(c => {
+                    const v = parseFloat(c.valor) || 0;
+                    total += v;
+                    if (c.status === 'pago') pago += v;
+                    itens.push({ taskId, tarefa: TAREFAS.find(t=>t.id===taskId)?.txt || taskId, desc: c.desc, valor: v, status: c.status, categoria: c.categoria });
+                });
+            });
+            const totalCaixa = caixa.reduce((s,c) => s + (parseFloat(c.valor)||0), 0);
+            const txt = 'ORÇAMENTO - Febre de Arte 2026\nTotal custos: R$ ' + total.toFixed(2) + '\nPagos: R$ ' + pago.toFixed(2) + '\nA pagar: R$ ' + (total-pago).toFixed(2) + '\nCaixa: R$ ' + totalCaixa.toFixed(2) + '\nSaldo: R$ ' + (totalCaixa-total).toFixed(2) + '\n\nItens:\n' + itens.map(i => i.desc + ' | R$ ' + i.valor.toFixed(2) + ' | ' + i.tarefa).join('\n');
+            const blob = new Blob([txt], { type: 'text/plain' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'orcamento-' + new Date().toISOString().slice(0,10) + '.txt'; a.click();
+        }
+        function renderizarDiaEvento() {
+            const exec = TAREFAS.filter(t => t.grupo === 'execucao');
+            document.getElementById('checklist-dia-evento').innerHTML = exec.length ? exec.map((t,i) => {
+                const g = obterGantt(t.id);
+                return `<div class="card ${etapaClass(t.grupo)}" style="cursor:pointer" onclick="abrirRelatorio('${t.id}')"><span>${i+1}. ${t.txt}</span><span class="status-badge status-${g.status||'nao-iniciada'}">${STATUS_LABELS[g.status]||'Não iniciada'}</span></div>`;
+            }).join('') : '<p style="color:#64748b">Nenhuma tarefa de execução no cronograma.</p>';
+        }
+        function renderizarHistoricoPanel() {
+            document.getElementById('lista-historico').innerHTML = historico.slice(0, 50).map(h => {
+                const t = obterTarefaPorId(h.taskId);
+                return `<div class="historico-item">${new Date(h.quando).toLocaleString('pt-BR')} · ${(t?.txt || h.taskId).slice(0,40)} · ${h.campo}: ${h.valorAntigo} → ${h.valorNovo}</div>`;
+            }).join('') || '<p style="color:#64748b">Nenhum registro.</p>';
+        }
+
+        function abrirRelatorio(taskId) {
+            tarefaRelatorioAberta = taskId;
+            const t = TAREFAS.find(x => x.id === taskId) || {};
+            const g = obterGantt(taskId);
+            document.getElementById('rel-titulo').textContent = t.txt || taskId;
+            document.getElementById('rel-objetivo').value = g.objetivo || '';
+            document.getElementById('rel-escopo').value = g.escopo || '';
+            document.getElementById('rel-entregaveis').value = g.entregaveis || '';
+            document.getElementById('rel-criterios').value = g.criteriosAceite || '';
+            document.getElementById('rel-prazo').value = g.prazoPrevisto || '';
+            document.getElementById('rel-riscos').value = g.riscos || '';
+            document.getElementById('rel-dep-externas').value = g.dependenciasExternas || '';
+            document.getElementById('rel-observacoes').value = g.observacoes || '';
+            document.getElementById('rel-prioridade').value = g.prioridade || 'media';
+            document.getElementById('rel-responsavel').textContent = g.responsavel || '—';
+            document.getElementById('rel-status').textContent = STATUS_LABELS[g.status] || g.status;
+            document.getElementById('rel-tempo').textContent = t.tempoEspeculado || '—';
+            document.getElementById('rel-inicio-real').value = (g.dataInicioReal || '').slice(0, 16);
+            document.getElementById('rel-conclusao-real').value = (g.dataConclusaoReal || '').slice(0, 16);
+
+            document.getElementById('rel-objetivo').onblur = () => { g.objetivo = document.getElementById('rel-objetivo').value; salvar(); };
+            document.getElementById('rel-escopo').onblur = () => { g.escopo = document.getElementById('rel-escopo').value; salvar(); };
+            document.getElementById('rel-entregaveis').onblur = () => { g.entregaveis = document.getElementById('rel-entregaveis').value; salvar(); };
+            document.getElementById('rel-criterios').onblur = () => { g.criteriosAceite = document.getElementById('rel-criterios').value; salvar(); };
+            document.getElementById('rel-prazo').onblur = () => { g.prazoPrevisto = document.getElementById('rel-prazo').value; salvar(); };
+            document.getElementById('rel-riscos').onblur = () => { g.riscos = document.getElementById('rel-riscos').value; salvar(); };
+            document.getElementById('rel-dep-externas').onblur = () => { g.dependenciasExternas = document.getElementById('rel-dep-externas').value; salvar(); };
+            document.getElementById('rel-observacoes').onblur = () => { g.observacoes = document.getElementById('rel-observacoes').value; salvar(); };
+            document.getElementById('rel-prioridade').onchange = () => { g.prioridade = document.getElementById('rel-prioridade').value; salvar(); };
+
+            const custosLista = custos[taskId] || [];
+            document.getElementById('rel-custos').innerHTML = custosLista.map((c, i) => `
+                <div class="custo-item ${c.status==='pago'?'pago':''}">
+                    <div><div>${c.desc} — R$ ${parseFloat(c.valor||0).toFixed(2)}</div>
+                    <small>${c.categoria || ''} ${c.status==='pago' ? '· Pago em ' + (c.dataPagamento||'—') : '· Não pago'}</small></div>
+                    <button class="modal-btn secundario" onclick="toggleCustoPago('${taskId}',${i})">${c.status==='pago'?'Desfazer':'Marcar pago'}</button>
+                </div>
+            `).join('');
+            document.getElementById('modal-relatorio').classList.add('ativo');
+        }
+        function fecharRelatorio() { document.getElementById('modal-relatorio').classList.remove('ativo'); tarefaRelatorioAberta = null; }
+
+        function salvarCampoRelatorio(campo, valor) {
+            if (!tarefaRelatorioAberta) return;
+            const g = obterGantt(tarefaRelatorioAberta);
+            const old = g[campo];
+            if (old !== valor) addHistorico(tarefaRelatorioAberta, campo, old || '', valor);
+            g[campo] = valor;
+            salvar();
+        }
+
+        function adicionarCustoRelatorio() {
+            const taskId = tarefaRelatorioAberta;
+            if (!taskId) return;
+            const descEl = document.getElementById('rel-custo-desc');
+            const valorEl = document.getElementById('rel-custo-valor');
+            const catEl = document.getElementById('rel-custo-cat');
+            const desc = (descEl && descEl.value || '').trim();
+            const valor = parseFloat(valorEl && valorEl.value || 0);
+            const cat = (catEl && catEl.value) || 'outro';
+            if (!desc || valor <= 0) return;
+            if (!custos[taskId]) custos[taskId] = [];
+            custos[taskId].push({ desc, valor, status: 'nao-pago', dataPagamento: '', categoria: cat });
+            if (descEl) descEl.value = '';
+            if (valorEl) valorEl.value = '';
+            salvar();
+            abrirRelatorio(taskId);
+            renderizarOrcamento();
+            renderizarCronograma();
+        }
+        function toggleCustoPago(taskId, idx) {
+            const c = custos[taskId][idx];
+            c.status = c.status === 'pago' ? 'nao-pago' : 'pago';
+            c.dataPagamento = c.status === 'pago' ? new Date().toLocaleDateString('pt-BR') : '';
+            salvar();
+            abrirRelatorio(taskId);
+            renderizarOrcamento();
+            renderizarCronograma();
+        }
+
+        function criarNovaTarefa() {
+            const nome = document.getElementById('nova-tarefa-nome').value.trim();
+            const prereq = document.getElementById('nova-tarefa-prereq').value || null;
+            const paralelo = document.getElementById('nova-tarefa-paralelo').checked;
+            if (!nome) return;
+            const id = idUnico();
+            const tempoEspeculado = estimarTempo(nome, prereq);
+            TAREFAS.push({ id, txt: nome, preReq: !!prereq, prereqDe: prereq || null, paralelo, tempoEspeculado, grupo: 'custom' });
+            document.getElementById('nova-tarefa-nome').value = '';
+            document.getElementById('nova-tarefa-prereq').value = '';
+            document.getElementById('nova-tarefa-paralelo').checked = false;
+            salvar();
+            renderizarListaTarefas();
+            atualizarSelectPrereq();
+            renderizarCronograma();
+            renderizarKPIs();
+            atualizarFiltrosSelect();
+        }
+        function estimarTempo(nome, prereq) {
+            const n = nome.toLowerCase();
+            if (n.includes('convida') || n.includes('palestr')) return '3 semanas';
+            if (n.includes('local') || n.includes('reserva')) return '2 semanas';
+            if (n.includes('identidade') || n.includes('visual')) return '2 semanas';
+            if (n.includes('mídia') || n.includes('midia')) return '2 semanas';
+            return '1 semana';
+        }
+
+        function atualizarSelectPrereq() {
+            const sel = document.getElementById('nova-tarefa-prereq');
+            sel.innerHTML = '<option value="">Sem pré-requisito</option>' + TAREFAS.filter(t => t.id).map(t => `<option value="${t.id}">${t.txt}</option>`).join('');
+        }
+
+        function adicionarAgente() {
+            const nome = document.getElementById('novo-agente').value.trim();
+            if (nome && !agentes[nome]) { agentes[nome] = { funcao: '', area: '', contato: '', responsabilidades: '', disponibilidade: '', ajuda: '' }; salvar(); document.getElementById('novo-agente').value = ''; renderizarTime(); }
+        }
+
+        function abrirRelatorioAgente(nome) {
+            if (!nome) return;
+            agenteRelatorioAberto = nome;
+            const a = agentes[nome] || {};
+            document.getElementById('ag-rel-titulo').textContent = 'Relatório de ' + nome;
+            document.getElementById('ag-funcao').value = a.funcao || '';
+            document.getElementById('ag-area').value = a.area || '';
+            document.getElementById('ag-responsabilidades').value = a.responsabilidades || '';
+            document.getElementById('ag-disponibilidade').value = a.disponibilidade || '';
+            document.getElementById('ag-ajuda').value = a.ajuda || '';
+            document.getElementById('ag-contato').value = a.contato || '';
+            const salvarAg = (campo, elId) => { agentes[nome] = agentes[nome] || {}; agentes[nome][campo] = document.getElementById(elId).value; salvar(); };
+            document.getElementById('ag-funcao').onblur = () => salvarAg('funcao','ag-funcao');
+            document.getElementById('ag-area').onblur = () => salvarAg('area','ag-area');
+            document.getElementById('ag-responsabilidades').onblur = () => salvarAg('responsabilidades','ag-responsabilidades');
+            document.getElementById('ag-disponibilidade').onblur = () => salvarAg('disponibilidade','ag-disponibilidade');
+            document.getElementById('ag-ajuda').onblur = () => salvarAg('ajuda','ag-ajuda');
+            document.getElementById('ag-contato').onblur = () => salvarAg('contato','ag-contato');
+
+            const tarefasDoAgente = TAREFAS.filter(t => (obterGantt(t.id).responsavel || '').trim() === nome);
+            document.getElementById('ag-tarefas').innerHTML = tarefasDoAgente.map(t => {
+                const g = obterGantt(t.id);
+                return `<div class="agente-tarefa" onclick="abrirRelatorio('${t.id}');fecharRelatorioAgente()">${t.txt} <span class="status-badge status-${g.status}">${STATUS_LABELS[g.status]}</span></div>`;
+            }).join('') || '<p style="color:#64748b">Nenhuma tarefa atribuída.</p>';
+
+            const agenda = tarefasDoAgente.map(t => {
+                const g = obterGantt(t.id);
+                const ini = g.dataInicioReal ? new Date(g.dataInicioReal).toLocaleDateString('pt-BR') : (MESES[g.inicioMes] || '—');
+                const fim = g.dataConclusaoReal ? new Date(g.dataConclusaoReal).toLocaleDateString('pt-BR') : (MESES[Math.min(11, (g.inicioMes||0)+(g.duracaoMeses||1)-1)] || '—');
+                const realInfo = (g.dataInicioReal || g.dataConclusaoReal) ? ' (datas reais)' : ' (cronograma)';
+                return `<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><strong>${t.txt}</strong><br><small>Início: ${ini} · Conclusão: ${fim}${realInfo}</small></div>`;
+            }).join('');
+            document.getElementById('ag-agenda').innerHTML = agenda || '<p style="color:#64748b">Sem datas registradas.</p>';
+
+            document.getElementById('modal-agente').classList.add('ativo');
+        }
+        function fecharRelatorioAgente() { document.getElementById('modal-agente').classList.remove('ativo'); agenteRelatorioAberto = null; }
+
+        function renderizarTime() {
+            const el = document.getElementById('lista-agentes');
+            const todos = [...new Set([...Object.keys(agentes), ...TAREFAS.map(t => (obterGantt(t.id).responsavel || '').trim()).filter(Boolean)])];
+            el.innerHTML = todos.map(nome => {
+                const tarefas = TAREFAS.filter(t => (obterGantt(t.id).responsavel || '').trim() === nome);
+                const a = agentes[nome] || {};
+                const safeAttr = (nome || '').replace(/"/g, '&quot;');
+                return `<div class="agente-card" data-agente="${safeAttr}" onclick="abrirRelatorioAgente(this.getAttribute('data-agente'))">
+                    <h3>${nome}</h3>
+                    <div style="font-size:0.8rem;color:#94a3b8;margin-bottom:8px">${a.funcao || '—'} ${a.area ? '· ' + a.area : ''}</div>
+                    ${tarefas.length} tarefa(s) · Clique para abrir relatório
+                </div>`;
+            }).join('');
+        }
+
+        function renderizarOrcamento() {
+            let total = 0, pago = 0;
+            const itens = [];
+            Object.keys(custos).forEach(taskId => {
+                (custos[taskId] || []).forEach(c => {
+                    const v = parseFloat(c.valor) || 0;
+                    total += v;
+                    if (c.status === 'pago') pago += v;
+                    itens.push({ taskId, tarefa: TAREFAS.find(t=>t.id===taskId)?.txt || taskId, ...c });
+                });
+            });
+            const bloqueadores = itens.filter(i => i.status === 'nao-pago');
+            const totalCaixa = caixa.reduce((s, c) => s + (parseFloat(c.valor) || 0), 0);
+            const porCat = {};
+            itens.forEach(i => { const c = i.categoria || 'outro'; if (!porCat[c]) porCat[c] = 0; porCat[c] += parseFloat(i.valor); });
+            const maxCat = Math.max(...Object.values(porCat), 1);
+            const grafEl = document.getElementById('grafico-orcamento');
+            grafEl.style.display = Object.keys(porCat).length ? 'flex' : 'none';
+            grafEl.innerHTML = Object.entries(porCat).map(([c, v]) => `<div class="grafico-bar" style="height:${(v/maxCat)*100}%" title="${c}: R$ ${v.toFixed(2)}"><span>${c}</span></div>`).join('');
+
+            const saldoNeg = totalCaixa - total < 0;
+            document.getElementById('orc-resumo').innerHTML = `
+                <div class="orcamento-card orc-custo"><h4>Total de custos</h4><div class="valor">R$ ${total.toFixed(2)}</div></div>
+                <div class="orcamento-card orc-pagar"><h4>A pagar</h4><div class="valor">R$ ${(total-pago).toFixed(2)}</div></div>
+                <div class="orcamento-card orc-pago"><h4>Pagos</h4><div class="valor">R$ ${pago.toFixed(2)}</div></div>
+                <div class="orcamento-card orc-entrada"><h4>Entradas caixa</h4><div class="valor">R$ ${totalCaixa.toFixed(2)}</div></div>
+                <div class="orcamento-card orc-saldo ${saldoNeg?'negativo':''}"><h4>Saldo (caixa - custos)</h4><div class="valor">R$ ${(totalCaixa-total).toFixed(2)}</div></div>
+            `;
+
+            let html = '';
+            if (vistaOrcamento === 'todos') html = itens.map(i => `<div class="orcamento-item" style="cursor:pointer" onclick="abrirRelatorio('${i.taskId}')"><div><strong>${i.desc}</strong> — R$ ${parseFloat(i.valor).toFixed(2)}</div><small>${i.tarefa} · ${i.categoria || '—'} ${i.status==='pago' ? '· Pago em ' + i.dataPagamento : ''}</small></div>`).join('');
+            else if (vistaOrcamento === 'por-tarefa') {
+                const porTarefa = {};
+                itens.forEach(i => { if (!porTarefa[i.tarefa]) porTarefa[i.tarefa] = { total: 0, pago: 0 }; porTarefa[i.tarefa].total += parseFloat(i.valor); if (i.status==='pago') porTarefa[i.tarefa].pago += parseFloat(i.valor); });
+                html = Object.entries(porTarefa).map(([t, v]) => `<div class="orcamento-item"><div><strong>${t}</strong><br><small>Total R$ ${v.total.toFixed(2)} · Pago R$ ${v.pago.toFixed(2)} · A pagar R$ ${(v.total-v.pago).toFixed(2)}</small></div></div>`).join('');
+            } else if (vistaOrcamento === 'por-categoria') {
+                const porCat = {};
+                itens.forEach(i => { const c = i.categoria || 'outro'; if (!porCat[c]) porCat[c] = 0; porCat[c] += parseFloat(i.valor); });
+                const pct = total > 0 ? v => ((v/total)*100).toFixed(1) : () => '0';
+                html = Object.entries(porCat).map(([c, v]) => `<div class="orcamento-item"><div><strong>${c}</strong></div><div>R$ ${v.toFixed(2)} (${pct(v)}%)</div></div>`).join('');
+            } else if (vistaOrcamento === 'resumo') {
+                const porCat = {};
+                itens.forEach(i => { const c = i.categoria || 'outro'; if (!porCat[c]) porCat[c] = 0; porCat[c] += parseFloat(i.valor); });
+                const pct = total > 0 ? v => ((v/total)*100).toFixed(1) : () => '0';
+                const alertaSaldo = totalCaixa - total < 0;
+                html = `
+                    <div class="orcamento-resumo-ex" style="background:rgba(255,255,255,0.02);padding:20px;border-radius:12px;margin-bottom:20px">
+                        <h4 style="margin-bottom:12px;font-size:0.9rem">Mapeamento</h4>
+                        <p><strong>Total de itens:</strong> ${itens.length} (${itens.filter(i=>i.status==='pago').length} pagos, ${bloqueadores.length} a pagar)</p>
+                        <p><strong>Tarefas com custos:</strong> ${[...new Set(itens.map(i=>i.taskId))].length}</p>
+                        <p><strong>Patrocinadores cadastrados:</strong> ${patrocinadores.length}</p>
+                        <p><strong>Entradas de caixa:</strong> ${caixa.length} (R$ ${totalCaixa.toFixed(2)})</p>
+                        ${alertaSaldo ? '<p class="alerta-saldo-negativo" style="margin-top:8px">Saldo negativo — caixa insuficiente para cobrir custos</p>' : ''}
+                    </div>
+                    <h4 style="margin-bottom:12px;font-size:0.9rem">Distribuição por categoria</h4>
+                    ${Object.entries(porCat).map(([c, v]) => `<div class="orcamento-item"><div><strong>${c}</strong></div><div>R$ ${v.toFixed(2)} (${pct(v)}%)</div></div>`).join('')}
+                `;
+            } else html = bloqueadores.map(i => `<div class="orcamento-item" style="cursor:pointer;border-left:4px solid #ef4444" onclick="abrirRelatorio('${i.taskId}')"><div><strong>${i.desc}</strong> — R$ ${parseFloat(i.valor).toFixed(2)}</div><small>${i.tarefa} · Bloqueia conclusão da tarefa</small></div>`).join('');
+
+            document.getElementById('orc-lista').innerHTML = html || '<p style="color:#64748b;padding:20px">Nenhum dado para exibir.</p>';
+        }
+
+        function bindOrcamentoTabs() {
+            document.querySelectorAll('.orcamento-tabs button').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('.orcamento-tabs button').forEach(b => b.classList.remove('ativo'));
+                    btn.classList.add('ativo');
+                    vistaOrcamento = btn.dataset.vista;
+                    renderizarOrcamento();
+                };
+            });
+        }
+
+        function adicionarEntradaCaixa() {
+            const tipo = document.getElementById('caixa-tipo').value;
+            const desc = document.getElementById('caixa-desc').value.trim();
+            const valor = parseFloat(document.getElementById('caixa-valor').value) || 0;
+            if (!desc || valor <= 0) return;
+            caixa.push({ tipo, desc, valor });
+            document.getElementById('caixa-desc').value = ''; document.getElementById('caixa-valor').value = '';
+            salvar(); renderizarAtivacoes(); renderizarOrcamento();
+        }
+        function adicionarPatrocinador() {
+            const nome = document.getElementById('pat-nome').value.trim();
+            if (!nome) return;
+            patrocinadores.push({ nome, contato: document.getElementById('pat-contato').value, status: document.getElementById('pat-status').value });
+            document.getElementById('pat-nome').value = ''; document.getElementById('pat-contato').value = '';
+            salvar(); renderizarAtivacoes();
+        }
+        function renderizarAtivacoes() {
+            document.getElementById('lista-caixa').innerHTML = caixa.map(c => `<div class="custo-item" style="background:rgba(255,255,255,0.04)"><div><strong>${c.desc}</strong> — R$ ${parseFloat(c.valor).toFixed(2)}</div><small>${c.tipo}</small></div>`).join('') || '<p style="color:#64748b">Nenhuma entrada.</p>';
+            document.getElementById('lista-patrocinadores').innerHTML = patrocinadores.map(p => `<div class="custo-item" style="background:rgba(255,255,255,0.04)"><div><strong>${p.nome}</strong></div><small>${p.contato || '—'} · ${p.status.replace('_',' ')}</small></div>`).join('') || '<p style="color:#64748b">Nenhum patrocinador.</p>';
+        }
+
+        function diaAbsoluto(mes, dia) {
+            let s = 0;
+            for (let i = 0; i < mes; i++) s += DIAS_MES[i];
+            return s + dia - 1;
+        }
+        function diaTemTarefa(mes, dia) {
+            const abs = diaAbsoluto(mes, dia);
+            const tarefas = tarefasFiltradas();
+            for (const t of tarefas) {
+                const g = obterGantt(t.id);
+                const ini = (g.inicioSemana ?? g.inicioMes * SEMANAS_POR_MES) * 7;
+                const fim = ini + (g.duracaoSemanas ?? (g.duracaoMeses || 1) * SEMANAS_POR_MES) * 7;
+                if (abs >= ini && abs < fim) return true;
+            }
+            return false;
+        }
+        function renderizarMiniCalendario() {
+            const el = document.getElementById('mini-calendario');
+            const lbl = document.getElementById('mini-cal-mes-ano');
+            if (!el) return;
+            const m = miniCalMesAtual;
+            if (lbl) lbl.textContent = MESES_COMPLETOS[m] + ' 2026';
+            const diasNoMes = DIAS_MES[m];
+            const primeiroDoMes = new Date(2026, m, 1);
+            const offsetSegunda = (primeiroDoMes.getDay() - 1 + 7) % 7;
+            const diasSemana = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+            let html = diasSemana.map(d => `<div class="cronograma-mini-dia-sem">${d}</div>`).join('');
+            for (let i = 0; i < offsetSegunda; i++) html += '<div class="cronograma-mini-dia"></div>';
+            for (let d = 1; d <= diasNoMes; d++) {
+                const hoje = new Date();
+                const isHoje = hoje.getFullYear() === 2026 && hoje.getMonth() === m && hoje.getDate() === d;
+                const hasTarefa = diaTemTarefa(m, d);
+                const isDom = (offsetSegunda + d - 1) % 7 === 6;
+                const classe = 'cronograma-mini-dia clickable' + (isHoje ? ' agora' : '') + (hasTarefa ? ' has-tarefa' : '') + (isDom ? ' dom' : '');
+                const txt = hasTarefa ? d + '*' : d;
+                const tituloDia = `${d} de ${MESES_COMPLETOS[m]} de 2026` + (hasTarefa ? ' — Tem tarefa(s)' : '');
+                html += `<div class="${classe}" data-mes="${m}" data-dia="${d}" title="${tituloDia}">${txt}</div>`;
+            }
+            el.innerHTML = html;
+        }
+        function bindCronogramaSidebar() {
+            const sidebar = document.getElementById('cronograma-sidebar');
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            if (toggleBtn && sidebar) toggleBtn.onclick = () => { sidebar.classList.toggle('recolhida'); toggleBtn.title = sidebar.classList.contains('recolhida') ? 'Expandir' : 'Recolher'; };
+            const prevBtn = document.getElementById('mini-cal-prev');
+            const nextBtn = document.getElementById('mini-cal-next');
+            if (prevBtn) prevBtn.onclick = () => { miniCalMesAtual = Math.max(0, miniCalMesAtual - 1); renderizarMiniCalendario(); };
+            if (nextBtn) nextBtn.onclick = () => { miniCalMesAtual = Math.min(11, miniCalMesAtual + 1); renderizarMiniCalendario(); };
+            const miniCal = document.getElementById('mini-calendario');
+            if (miniCal) miniCal.onclick = e => {
+                const cell = e.target.closest('.cronograma-mini-dia.clickable');
+                if (!cell || !cell.dataset.mes) return;
+                const m = parseInt(cell.dataset.mes, 10);
+                const d = parseInt(cell.dataset.dia, 10) || 1;
+                const abs = diaAbsoluto(m, d);
+                janelaSemanaInicio = Math.max(0, Math.min(47, semanaContendoDia(abs)));
+                const container = document.getElementById('gantt-container');
+                if (container) container.scrollLeft = 0;
+                zoomNivel = 2;
+                atualizarZoomUI();
+                renderizarCronograma();
+            };
+            ['planejamento','producao','execucao','pos'].forEach(k => {
+                const id = 'filtro-' + (k === 'pos' ? 'pos' : k);
+                const el = document.getElementById(id);
+                const etapaKey = k === 'pos' ? 'pos-producao' : k;
+                if (el) {
+                    el.checked = filtros.etapasAtivas && filtros.etapasAtivas.includes(etapaKey);
+                    el.onchange = () => {
+                        if (el.checked) filtros.etapasAtivas = [...(filtros.etapasAtivas || []), etapaKey].filter((v,i,a)=>a.indexOf(v)===i);
+                        else filtros.etapasAtivas = (filtros.etapasAtivas || []).filter(x => x !== etapaKey);
+                        if (!filtros.etapasAtivas || filtros.etapasAtivas.length === 0) filtros.etapasAtivas = [etapaKey];
+                        filtros.etapa = '';
+                        const fe = document.getElementById('filtro-etapa'); if (fe) fe.value = '';
+                        renderizarCronograma();
+                    };
+                }
+            });
+        }
+        function renderizarCronograma() {
+            const dica = document.getElementById('cronograma-dica');
+            const navOpcoes = document.getElementById('gantt-nav-opcoes');
+            const ganttCont = document.getElementById('gantt-container');
+            const layoutGantt = document.getElementById('cronograma-gantt-layout');
+            if (ganttCont) ganttCont.classList.toggle('gantt-panable', vistaPrincipal === 'gantt' && zoomNivel >= 1 && zoomNivel <= 4);
+            document.querySelectorAll('.cronograma-conteudo').forEach(el => el.classList.remove('ativo'));
+            if (vistaPrincipal === 'gantt' && layoutGantt) {
+                layoutGantt.classList.add('ativo');
+                if (navOpcoes) navOpcoes.style.display = '';
+                if (dica) dica.textContent = 'Ctrl+scroll (ou botões +/−) para zoom: Ano → Mês → Semana → Dia. Arraste para navegar. Dias com * têm tarefas.';
+                atualizarZoomUI();
+                renderizarMiniCalendario();
+                renderizarGantt();
+            } else if (vistaPrincipal === 'lista') {
+                const elLista = document.getElementById('cronograma-lista');
+                if (elLista) elLista.classList.add('ativo');
+                if (navOpcoes) navOpcoes.style.display = 'none';
+                if (dica) dica.textContent = 'Clique em uma linha para abrir o relatório da tarefa.';
+                renderizarListaCronograma();
+            } else {
+                const elEtapas = document.getElementById('cronograma-etapas');
+                if (elEtapas) elEtapas.classList.add('ativo');
+                if (navOpcoes) navOpcoes.style.display = 'none';
+                if (dica) dica.textContent = 'Arraste os cards entre colunas para mudar a etapa da tarefa.';
+                renderizarEtapasKanban();
+            }
+        }
+        function renderizarListaCronograma() {
+            const el = document.getElementById('cronograma-lista');
+            if (!el) return;
+            const etapaLabels = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós' };
+            const tarefas = tarefasFiltradas();
+            const rows = tarefas.length ? tarefas.map(t => {
+                const g = obterGantt(t.id);
+                const ini = g.dataInicioReal ? new Date(g.dataInicioReal).toLocaleDateString('pt-BR') : (MESES[g.inicioMes] || '—');
+                const fim = g.dataConclusaoReal ? new Date(g.dataConclusaoReal).toLocaleDateString('pt-BR') : (MESES[Math.min(11, (g.inicioMes||0)+(g.duracaoMeses||1)-1)] || '—');
+                const dur = (g.duracaoMeses || 1) + ' mês(es)';
+                const status = STATUS_LABELS[g.status] || 'Não iniciada';
+                return `<tr onclick="abrirRelatorio('${t.id}')"><td>${t.txt}</td><td class="etapa-cell">${etapaLabels[t.grupo] || t.grupo}</td><td>${g.responsavel || '—'}</td><td>${ini}</td><td>${fim}</td><td>${dur}</td><td><span class="status-badge status-${g.status||'nao-iniciada'}">${status}</span></td></tr>`;
+            }).join('') : '<tr><td colspan="7" style="text-align:center;padding:24px;color:#64748b">Nenhuma tarefa encontrada. Ajuste os filtros ou adicione tarefas da biblioteca.</td></tr>';
+            el.innerHTML = '<table><thead><tr><th>Tarefa</th><th>Etapa</th><th>Responsável</th><th>Início</th><th>Fim</th><th>Duração</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>';
+        }
+        function renderizarEtapasKanban() {
+            const el = document.getElementById('cronograma-etapas');
+            if (!el) return;
+            const ordem = ['planejamento', 'producao', 'execucao', 'pos-producao'];
+            const labels = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós-produção' };
+            const tarefas = tarefasFiltradas();
+            const porEtapa = {};
+            ordem.forEach(k => porEtapa[k] = []);
+            tarefas.forEach(t => {
+                const g = t.grupo || 'planejamento';
+                porEtapa[ordem.includes(g) ? g : 'planejamento'].push(t);
+            });
+            let html = '';
+            ordem.forEach(etapa => {
+                const cards = porEtapa[etapa].map(t => {
+                    const g = obterGantt(t.id);
+                    const resp = g.responsavel ? '<small>' + g.responsavel + '</small>' : '';
+                    const status = (g.status || 'nao-iniciada') === 'concluida' ? ' ✓' : '';
+                    return `<div class="cronograma-card ${etapaClass(t.grupo)}" draggable="true" data-id="${t.id}" data-etapa="${etapa}">${t.txt}${status}${resp}</div>`;
+                }).join('');
+                html += `<div class="cronograma-coluna" data-etapa="${etapa}"><div class="cronograma-coluna-titulo">${labels[etapa]}</div><div class="cronograma-coluna-cards">${cards}</div></div>`;
+            });
+            el.innerHTML = html;
+            let arrastandoCardId = null, arrastandoCardEtapa = null;
+            el.querySelectorAll('.cronograma-card').forEach(card => {
+                card.ondragstart = e => { arrastandoCardId = card.dataset.id; arrastandoCardEtapa = card.dataset.etapa; e.dataTransfer.setData('text/plain', card.dataset.id); };
+                card.ondragend = () => { arrastandoCardId = null; arrastandoCardEtapa = null; el.querySelectorAll('.cronograma-coluna').forEach(c => c.classList.remove('drag-over')); };
+                card.onclick = e => { if (!e.target.closest('.cronograma-coluna')) return; abrirRelatorio(card.dataset.id); };
+            });
+            el.querySelectorAll('.cronograma-coluna').forEach(col => {
+                col.ondragover = e => { e.preventDefault(); if (arrastandoCardId) col.classList.add('drag-over'); };
+                col.ondragleave = () => col.classList.remove('drag-over');
+                col.ondrop = e => {
+                    e.preventDefault(); col.classList.remove('drag-over');
+                    const id = e.dataTransfer.getData('text/plain');
+                    const novaEtapa = col.dataset.etapa;
+                    if (!id || !novaEtapa) return;
+                    const t = TAREFAS.find(x => x.id === id);
+                    if (t && t.grupo !== novaEtapa) {
+                        addHistorico(id, 'grupo', t.grupo || '', novaEtapa);
+                        t.grupo = novaEtapa;
+                        salvar();
+                        renderizarCronograma();
+                    }
+                };
+            });
+        }
+        function computarDemandaPorMes() {
+            const demanda = new Array(12).fill(0);
+            tarefasFiltradas().forEach(t => {
+                const g = obterGantt(t.id);
+                const ini = g.inicioSemana ?? g.inicioMes * SEMANAS_POR_MES;
+                const dur = g.duracaoSemanas ?? (g.duracaoMeses || 1) * SEMANAS_POR_MES;
+                for (let s = ini; s < Math.min(48, ini + dur); s++) {
+                    const m = Math.floor(s / SEMANAS_POR_MES);
+                    if (m < 12) demanda[m]++;
+                }
+            });
+            return demanda;
+        }
+        function computarEtapaSpan(etapa) {
+            const tarefas = tarefasFiltradas().filter(t => (t.grupo || 'planejamento') === etapa);
+            if (tarefas.length === 0) return null;
+            let iniMin = 48, fimMax = 0;
+            let totalSemanasSpec = 0;
+            tarefas.forEach(t => {
+                const g = obterGantt(t.id);
+                const ini = g.inicioSemana ?? g.inicioMes * SEMANAS_POR_MES;
+                const dur = g.duracaoSemanas ?? (g.duracaoMeses || 1) * SEMANAS_POR_MES;
+                iniMin = Math.min(iniMin, ini);
+                fimMax = Math.max(fimMax, Math.min(48, ini + dur));
+                totalSemanasSpec += tempoEspeculadoParaSemanas(t.tempoEspeculado);
+            });
+            return { ini: iniMin, fim: fimMax, semanas: Math.ceil((fimMax - iniMin) * 10) / 10, totalSpec: totalSemanasSpec };
+        }
+        function renderizarGantt() {
+            const el = document.getElementById('gantt');
+            if (!el) return;
+            el.innerHTML = '';
+            const nivel = zoomNivel;
+            if (nivel === 0) { renderizarVistaAno(el); return; }
+            if (nivel === 1) { renderizarVistaMes(el); return; }
+            if (nivel === 2) { renderizarVistaSemana(el); return; }
+            if (nivel === 3 || nivel === 4) { renderizarVistaDia(el); return; }
+        }
+        function renderizarVistaAno(el) {
+            const grid = document.createElement('div');
+            grid.className = 'gantt-grid vista-ano';
+            grid.style.minWidth = '960px';
+            let headerHtml = '<div class="gantt-header">';
+            for (let m = 0; m < 12; m++) {
+                const isEvento = m === 10;
+                const isAgora = m === 1;
+                const semIni = m * SEMANAS_POR_MES + 1;
+                const semFim = (m + 1) * SEMANAS_POR_MES;
+                headerHtml += `<div class="gantt-header-cell gantt-mes-clicavel ${isEvento?'evento':''} ${isAgora?'agora':''} mes-inicio" data-mes="${m}" title="Clique para ver ${MESES_COMPLETOS[m]} 2026"><span class="vista-ano-mes">${MESES_COMPLETOS[m]} 2026</span><span class="vista-ano-semanas">Semanas ${semIni} a ${semFim}</span></div>`;
+            }
+            headerHtml += '</div>';
+            const demanda = computarDemandaPorMes();
+            const maxDemanda = Math.max(1, ...demanda);
+            const ordemEtapas = ['planejamento', 'producao', 'execucao', 'pos-producao'];
+            const labelsEtapa = { planejamento: 'Planejamento', producao: 'Produção', execucao: 'Execução', 'pos-producao': 'Pós-produção' };
+            ordemEtapas.forEach(etapa => {
+                const span = computarEtapaSpan(etapa);
+                if (!span) return;
+                const row = document.createElement('div');
+                row.className = 'gantt-row gantt-row-etapa';
+                let rowHtml = '<div class="gantt-cell-barra" style="display:grid;grid-template-columns:repeat(12,1fr);position:relative">';
+                for (let m = 0; m < 12; m++) {
+                    const sat = demanda[m] / maxDemanda;
+                    const bg = sat > 0 ? `rgba(132,204,22,${0.1 + sat * 0.35})` : 'transparent';
+                    rowHtml += `<div class="gantt-celula-semana" style="background:${bg};min-height:40px"></div>`;
+                }
+                rowHtml += '</div>';
+                const barra = document.createElement('div');
+                barra.className = 'etapa-barra gantt-barra ' + etapaClass(etapa);
+                barra.style.left = (span.ini / 48 * 100) + '%';
+                barra.style.width = ((span.fim - span.ini) / 48 * 100) + '%';
+                barra.innerHTML = `<span>${labelsEtapa[etapa]} — ~${span.semanas} sem</span>`;
+                row.innerHTML = rowHtml;
+                row.querySelector('.gantt-cell-barra').appendChild(barra);
+                grid.appendChild(row);
+            });
+            grid.innerHTML = headerHtml + grid.innerHTML;
+            const temLinhas = grid.querySelectorAll('.gantt-row-etapa').length > 0;
+            if (!temLinhas) {
+                const msg = document.createElement('div');
+                msg.className = 'gantt-row gantt-row-etapa';
+                msg.innerHTML = '<div class="gantt-cell-barra" style="display:flex;align-items:center;justify-content:center;padding:32px;min-height:80px"><span style="color:#94a3b8">Sem tarefas no cronograma. Clique em <strong>+</strong> para ver o calendário mensal.</span></div>';
+                grid.appendChild(msg);
+            }
+            grid.querySelectorAll('.gantt-mes-clicavel').forEach(cell => {
+                cell.onclick = () => {
+                    const m = parseInt(cell.dataset.mes, 10);
+                    if (!isNaN(m)) { janelaMesAtual = m; zoomNivel = 1; atualizarZoomUI(); renderizarCronograma(); }
+                };
+                cell.style.cursor = 'pointer';
+            });
+            el.appendChild(grid);
+            renderizarResumo();
+        }
+        function renderizarVistaMes(el) {
+            const m = janelaMesAtual;
+            const primeiroDoMes = new Date(2026, m, 1);
+            const diasNoMes = DIAS_MES[m];
+            const offsetSegunda = (primeiroDoMes.getDay() - 1 + 7) % 7;
+            const numRows = Math.ceil((offsetSegunda + diasNoMes) / 7);
+            const inicioGrid = new Date(2026, m, 1);
+            inicioGrid.setDate(inicioGrid.getDate() - offsetSegunda);
+            const tarefas = tarefasFiltradas();
+            const tarefasPorDia = {};
+            tarefas.forEach(t => {
+                const g = obterGantt(t.id);
+                const taskIni = (g.inicioSemana ?? (g.inicioMes ?? 0) * SEMANAS_POR_MES) * 7;
+                const taskFim = taskIni + (g.duracaoSemanas ?? 4) * 7 - 1;
+                const d0 = new Date(2026, 0, 1);
+                for (let abs = taskIni; abs <= taskFim; abs++) {
+                    if (!tarefasPorDia[abs]) tarefasPorDia[abs] = [];
+                    tarefasPorDia[abs].push({ t, g });
+                }
+            });
+            const grid = document.createElement('div');
+            grid.className = 'gantt-grid vista-mes-calendario';
+            const calGrid = document.createElement('div');
+            calGrid.className = 'vista-mes-calendario-grid';
+            const emptyCorner = document.createElement('div');
+            emptyCorner.className = 'vista-mes-cal-semana-label';
+            calGrid.appendChild(emptyCorner);
+            for (let i = 0; i < 7; i++) {
+                const h = document.createElement('div');
+                h.className = 'vista-mes-cal-dia-semana';
+                h.textContent = DIAS_SEMANA[i];
+                calGrid.appendChild(h);
+            }
+            const hoje = new Date();
+            const diaHoje = hoje.getFullYear() === 2026 ? Math.floor((hoje - new Date(2026, 0, 1)) / 86400000) : -1;
+            for (let r = 0; r < numRows; r++) {
+                const semLabel = document.createElement('div');
+                semLabel.className = 'vista-mes-cal-semana-label';
+                semLabel.textContent = (r + 1) + '/' + numRows;
+                semLabel.title = 'Semana ' + (r + 1) + ' de ' + numRows + ' de ' + MESES_COMPLETOS[m];
+                calGrid.appendChild(semLabel);
+                for (let c = 0; c < 7; c++) {
+                    const d = new Date(inicioGrid);
+                    d.setDate(d.getDate() + r * 7 + c);
+                    const absDay = Math.floor((d - new Date(2026, 0, 1)) / 86400000);
+                    const isNoMes = d.getMonth() !== m;
+                    const isHoje = absDay === diaHoje;
+                    const lista = tarefasPorDia[absDay] || [];
+                    const gruposUnicos = [...new Set(lista.map(x => etapaClass(x.t.grupo)))];
+                    const cell = document.createElement('div');
+                    cell.className = 'vista-mes-cal-dia' + (isNoMes ? ' fora-mes' : '') + (isHoje ? ' agora' : '') + ' clickable';
+                    cell.dataset.abs = absDay;
+                    const num = document.createElement('div');
+                    num.className = 'vista-mes-cal-dia-num';
+                    num.textContent = String(d.getDate()).padStart(2, '0');
+                    cell.appendChild(num);
+                    const ind = document.createElement('div');
+                    ind.className = 'vista-mes-cal-indicadores';
+                    gruposUnicos.forEach(cls => {
+                        const sq = document.createElement('div');
+                        sq.className = 'vista-mes-cal-indicador ' + cls;
+                        sq.title = lista.filter(x => etapaClass(x.t.grupo) === cls).map(x => x.t.txt).join(', ');
+                        ind.appendChild(sq);
+                    });
+                    cell.appendChild(ind);
+                    const titulo = d.getDate() + ' de ' + MESES_COMPLETOS[d.getMonth()] + (lista.length ? ' — ' + lista.length + ' tarefa(s)' : '');
+                    cell.title = titulo;
+                    cell.onclick = () => {
+                        janelaSemanaInicio = semanaContendoDia(absDay);
+                        zoomNivel = 2;
+                        atualizarZoomUI();
+                        renderizarCronograma();
+                    };
+                    calGrid.appendChild(cell);
+                }
+            }
+            grid.appendChild(calGrid);
+            el.appendChild(grid);
+            renderizarResumo();
+        }
+        function renderizarVistaSemana(el) {
+            const s0 = janelaSemanaInicio;
+            const grid = document.createElement('div');
+            grid.className = 'gantt-grid vista-semana-agenda';
+            let headerHtml = '<div class="vista-semana-header">';
+            headerHtml += '<div class="vista-semana-hora-vazia"></div>';
+            const segunda = segundaOfWeek(s0);
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(segunda);
+                d.setDate(d.getDate() + i);
+                const diaCompleto = DIAS_SEMANA_COMPLETOS_ISO[i];
+                const hoje = new Date();
+                const isHoje = hoje.getFullYear() === 2026 && hoje.getMonth() === d.getMonth() && hoje.getDate() === d.getDate();
+                headerHtml += `<div class="vista-semana-dia-titulo ${isHoje?'agora':''}" title="${diaCompleto}, ${d.getDate()} de ${MESES_COMPLETOS[d.getMonth()]} 2026"><span class="dia-nome">${DIAS_SEMANA[i]}</span><span class="dia-num">${d.getDate()} de ${MESES[d.getMonth()]}</span></div>`;
+            }
+            headerHtml += '</div>';
+            grid.innerHTML = headerHtml;
+            const gridTurnos = document.createElement('div');
+            gridTurnos.className = 'vista-semana-grid-turnos';
+            const agora = new Date();
+            const horaAgora = agora.getHours() + agora.getMinutes() / 60;
+            let idxTurnoAgora = 0;
+            if (horaAgora >= 18) idxTurnoAgora = 2; else if (horaAgora >= 12) idxTurnoAgora = 1;
+            TURNOS.forEach((turno, tIdx) => {
+                const row = document.createElement('div');
+                const rowAgora = tIdx === idxTurnoAgora;
+                row.className = 'vista-semana-turno-row' + (rowAgora ? ' agenda-agora-row' : '');
+                row.innerHTML = `<div class="vista-semana-turno-label">${turno.label}<span class="vista-semana-turno-horas">${turno.inicio}h–${turno.fim}h</span></div><div class="vista-semana-turno-cells">`;
+                const cellsWrap = row.querySelector('.vista-semana-turno-cells');
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(segunda);
+                    d.setDate(d.getDate() + i);
+                    const isHoje = agora.getFullYear() === 2026 && agora.getMonth() === d.getMonth() && agora.getDate() === d.getDate();
+                    const cel = document.createElement('div');
+                    cel.className = 'vista-semana-turno-cell' + (rowAgora && isHoje ? ' agenda-agora' : '');
+                    cel.dataset.dia = i;
+                    cel.dataset.turno = turno.id;
+                    cellsWrap.appendChild(cel);
+                }
+                gridTurnos.appendChild(row);
+            });
+            grid.appendChild(gridTurnos);
+            const tarefas = tarefasFiltradas().filter(t => {
+                const g = obterGantt(t.id);
+                const ini = g.inicioSemana ?? 0;
+                const fim = ini + (g.duracaoSemanas ?? 4) - 1;
+                return s0 >= ini && s0 <= fim;
+            });
+            const absSegunda = diaAbsolutoDeData(segunda);
+            tarefas.forEach(t => {
+                const g = obterGantt(t.id);
+                const ini = g.inicioSemana ?? 0;
+                const fim = ini + (g.duracaoSemanas ?? 4) - 1;
+                const taskIniDia = ini * 7;
+                const taskFimDia = fim * 7 + 6;
+                for (let d = 0; d < 7; d++) {
+                    const absDay = absSegunda + d;
+                    if (absDay >= taskIniDia && absDay <= taskFimDia) {
+                        gridTurnos.querySelectorAll(`.vista-semana-turno-cell[data-dia="${d}"]`).forEach(c => c.classList.add('has-compromisso'));
+                    }
+                }
+            });
+            const bandTarefas = document.createElement('div');
+            bandTarefas.className = 'vista-semana-tarefas';
+            bandTarefas.innerHTML = '<div class="vista-semana-hora-vazia"></div>';
+            const wrapDias = document.createElement('div');
+            wrapDias.className = 'vista-semana-dias-tarefas';
+            for (let i = 0; i < 7; i++) {
+                const col = document.createElement('div');
+                col.className = 'vista-semana-dia-col';
+                const absDay = absSegunda + i;
+                const diaTarefas = tarefas.filter(t => {
+                    const g = obterGantt(t.id);
+                    const ini = g.inicioSemana ?? 0;
+                    const fim = ini + (g.duracaoSemanas ?? 4) - 1;
+                    const taskIniDia = ini * 7;
+                    const taskFimDia = fim * 7 + 6;
+                    return absDay >= taskIniDia && absDay <= taskFimDia;
+                });
+                diaTarefas.forEach(t => {
+                    const g = obterGantt(t.id);
+                    const barra = document.createElement('div');
+                    barra.className = 'vista-semana-tarefa-mini gantt-barra ' + etapaClass(t.grupo) + ' status-' + (g.status || 'nao-iniciada');
+                    barra.dataset.id = t.id;
+                    barra.textContent = t.txt;
+                    barra.title = t.txt + ' · ' + (g.responsavel || '—');
+                    barra.onclick = e => { e.stopPropagation(); abrirRelatorio(t.id); };
+                    col.appendChild(barra);
+                });
+                wrapDias.appendChild(col);
+            }
+            bandTarefas.appendChild(wrapDias);
+            grid.insertBefore(bandTarefas, gridTurnos);
+            el.appendChild(grid);
+            renderizarResumo();
+        }
+        function renderizarVistaDia(el) {
+            const d0 = new Date(2026, 0, 1);
+            const diaHoje = Math.floor((new Date() - d0) / 86400000);
+            const umDia = vistaAgendaDiaria;
+            const numCols = umDia ? 1 : 3;
+            const grid = document.createElement('div');
+            grid.className = umDia ? 'gantt-grid vista-dia-1 vista-agenda-diaria' : 'gantt-grid vista-dia-3';
+            let headerHtml = '<div class="gantt-header vista-dia-header">';
+            for (let i = 0; i < numCols; i++) {
+                const diaIdx = janelaDiasInicio + i;
+                const d = new Date(2026, 0, 1);
+                d.setDate(d.getDate() + diaIdx);
+                const isHoje = diaIdx === diaHoje;
+                const rotulo = umDia ? (isHoje ? 'Hoje' : null) : (isHoje ? 'Hoje' : (diaIdx === diaHoje - 1 ? 'Anteontem' : (diaIdx === diaHoje + 1 ? 'Amanhã' : null)));
+                const diaSemanaNome = DIAS_SEMANA_COMPLETOS[d.getDay()];
+                const titulo = rotulo ? `${rotulo} — ${diaSemanaNome}, ${d.getDate()} de ${MESES_COMPLETOS[d.getMonth()]}` : `${diaSemanaNome}, ${d.getDate()} de ${MESES_COMPLETOS[d.getMonth()]}`;
+                headerHtml += `<div class="gantt-header-cell ${isHoje?'agora':''}">${titulo}</div>`;
+            }
+            headerHtml += '</div>';
+            grid.innerHTML = headerHtml;
+            const toolBar = document.createElement('div');
+            toolBar.className = 'vista-dia-toolbar';
+            const btnAdd = document.createElement('button');
+            btnAdd.className = 'vista-dia-add';
+            btnAdd.textContent = '+ Tarefa';
+            btnAdd.title = 'Abrir aba Time para incluir tarefa';
+            btnAdd.onclick = () => { document.querySelector('.aba[data-aba="time"]')?.click(); };
+            toolBar.appendChild(btnAdd);
+            grid.insertBefore(toolBar, grid.firstChild);
+            const slotsHoras = umDia ? HORAS_AGENDA_DIA : HORAS_SEMANA;
+            const rowMinH = umDia ? 20 : 24;
+            const agora = new Date();
+            const horaAgora = agora.getHours() + (umDia ? agora.getMinutes() / 60 : 0);
+            const idxAgora30 = umDia ? Math.max(0, Math.min(slotsHoras.length - 1, Math.floor((horaAgora - HORA_INICIO) * 2))) : -1;
+            const idxAgora1h = !umDia ? Math.max(0, Math.min(slotsHoras.length - 1, Math.floor(horaAgora - HORA_INICIO))) : -1;
+            const idxTurnoTarde = umDia ? (12 - HORA_INICIO) * 2 : (12 - HORA_INICIO);
+            const idxTurnoNoite = umDia ? (18 - HORA_INICIO) * 2 : (18 - HORA_INICIO);
+            const horasHtml = slotsHoras.map((h, idx) => {
+                const diaVisivel = janelaDiasInicio <= diaHoje && janelaDiasInicio + numCols > diaHoje;
+                const rowAgora = diaVisivel && (umDia ? idx === idxAgora30 : idx === idxAgora1h);
+                const horaCheia = umDia ? (idx % 2 === 0) : true;
+                const turnoLimite = idx === idxTurnoTarde || idx === idxTurnoNoite;
+                const rowCls = (rowAgora ? 'agenda-agora-row ' : '') + (umDia ? (horaCheia ? 'agenda-hora-cheia' : 'agenda-hora-meia') : 'agenda-hora-cheia') + (turnoLimite ? ' turno-limite' : '');
+                let cells = '';
+                for (let d = 0; d < numCols; d++) {
+                    const isColHoje = (janelaDiasInicio + d) === diaHoje;
+                    const slotAgora = rowAgora && (numCols === 1 || isColHoje);
+                    cells += `<div class="agenda-slot ${slotAgora ? 'agenda-agora' : ''}" style="min-height:${rowMinH}px"></div>`;
+                }
+                return `<div class="vista-dia-horas-row ${rowCls}"><div class="horas-col agenda-hora">${h}</div><div class="grid-dia">${cells}</div></div>`;
+            }).join('');
+            const wrap = document.createElement('div');
+            wrap.className = 'vista-dia-horas';
+            wrap.innerHTML = horasHtml;
+            grid.appendChild(wrap);
+            const fimJanela = janelaDiasInicio + numCols - 1;
+            const tarefas = tarefasFiltradas().filter(t => {
+                const g = obterGantt(t.id);
+                const taskIni = (g.inicioSemana ?? 0) * 7;
+                const taskFim = taskIni + (g.duracaoSemanas ?? 4) * 7;
+                return fimJanela >= taskIni && janelaDiasInicio <= taskFim;
+            });
+            tarefas.forEach(t => {
+                const g = obterGantt(t.id);
+                const row = document.createElement('div');
+                row.className = 'gantt-row';
+                row.innerHTML = `<div class="gantt-cell-barra" style="display:grid;grid-template-columns:repeat(${numCols},1fr);position:relative;min-height:32px"></div>`;
+                const cellBarra = row.querySelector('.gantt-cell-barra');
+                for (let i = 0; i < numCols; i++) cellBarra.appendChild(document.createElement('div')).className = 'gantt-celula-semana';
+                const taskIni = (g.inicioSemana ?? 0) * 7;
+                const visIni = Math.max(0, janelaDiasInicio - taskIni);
+                const visFim = Math.min(numCols, (janelaDiasInicio + numCols) - taskIni);
+                if (visFim <= visIni) return;
+                const barra = document.createElement('div');
+                barra.className = 'gantt-barra ' + etapaClass(t.grupo) + ' zoom-alto';
+                barra.style.left = (visIni / numCols * 100) + '%';
+                barra.style.width = ((visFim - visIni) / numCols * 100) + '%';
+                barra.dataset.id = t.id;
+                const prereq = t.prereqDe ? obterTarefaPorId(t.prereqDe)?.txt : null;
+                barra.innerHTML = `<span class="barra-nome">${t.txt}</span><span class="barra-extra">${g.responsavel || '—'} · ${STATUS_LABELS[g.status] || '—'}</span><span class="barra-extra">${t.tempoEspeculado || ''}</span>${prereq ? '<span class="barra-extra">↳ ' + prereq + '</span>' : ''}`;
+                barra.title = t.txt + '\nResponsável: ' + (g.responsavel || '—') + '\nStatus: ' + (STATUS_LABELS[g.status] || '—') + '\n' + (t.tempoEspeculado || '') + (prereq ? '\nPré-req: ' + prereq : '');
+                barra.onclick = e => { e.stopPropagation(); abrirRelatorio(t.id); };
+                cellBarra.appendChild(barra);
+                grid.appendChild(row);
+            });
+            el.appendChild(grid);
+            renderizarResumo();
+        }
+        document.querySelectorAll('.aba').forEach(aba => {
+            aba.onclick = () => {
+                document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
+                document.querySelectorAll('.painel-conteudo').forEach(p => p.classList.remove('ativo'));
+                aba.classList.add('ativa');
+                document.getElementById('painel-' + aba.dataset.aba).classList.add('ativo');
+                if (aba.dataset.aba === 'biblioteca') renderizarBiblioteca();
+                if (aba.dataset.aba === 'dia-evento') renderizarDiaEvento();
+                if (aba.dataset.aba === 'time') { renderizarTime(); atualizarSelectPrereq(); }
+                if (aba.dataset.aba === 'orcamento') { renderizarOrcamento(); bindOrcamentoTabs(); }
+                if (aba.dataset.aba === 'ativacoes') renderizarAtivacoes();
+                if (aba.dataset.aba === 'historico') renderizarHistoricoPanel();
+            };
+        });
+
+        function bindGanttNav() {
+            const container = document.getElementById('gantt-container');
+            const scrollStep = 400;
+            document.querySelectorAll('.gantt-vista-principal').forEach(btn => {
+                btn.onclick = () => {
+                    const v = btn.dataset.vista;
+                    if (!v || !['gantt','lista','etapas'].includes(v)) return;
+                    vistaPrincipal = v;
+                    document.querySelectorAll('.gantt-vista-principal').forEach(b => b.classList.remove('ativa'));
+                    btn.classList.add('ativa');
+                    renderizarCronograma();
+                };
+            });
+            const btnZoomOut = document.getElementById('gantt-zoom-out');
+            const btnZoomIn = document.getElementById('gantt-zoom-in');
+            if (btnZoomOut) btnZoomOut.onclick = () => {
+                if (zoomNivel === 4) { vistaAgendaDiaria = false; zoomNivel = 3; }
+                else if (zoomNivel === 3) vistaAgendaDiaria = false;
+                else zoomNivel = Math.max(0, zoomNivel - 1);
+                atualizarZoomUI();
+                renderizarCronograma();
+            };
+            if (btnZoomIn) btnZoomIn.onclick = () => {
+                if (zoomNivel === 0) { zoomNivel = 1; }
+                else if (zoomNivel === 1) {
+                    const primeiroDoMes = new Date(2026, janelaMesAtual, 1);
+                    janelaSemanaInicio = semanaContendoDia(diaAbsolutoDeData(primeiroDoMes));
+                    zoomNivel = 2;
+                } else if (zoomNivel === 2) {
+                    vistaAgendaDiaria = false;
+                    const segunda = segundaOfWeek(janelaSemanaInicio);
+                    janelaDiasInicio = Math.max(0, Math.min(334, diaAbsolutoDeData(segunda)));
+                    zoomNivel = 3;
+                } else if (zoomNivel === 3) {
+                    vistaAgendaDiaria = true;
+                    janelaDiasInicio = Math.max(0, Math.min(334, diaAbsolutoDeData(new Date())));
+                    zoomNivel = 4;
+                } else { zoomNivel = 4; }
+                atualizarZoomUI();
+                renderizarCronograma();
+            };
+            const ganttCont = document.getElementById('gantt-container');
+            if (ganttCont) ganttCont.onwheel = e => {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    if (e.deltaY > 0) {
+                        zoomNivel = zoomNivel === 4 ? 3 : Math.max(0, zoomNivel - 1);
+                    } else {
+                        if (zoomNivel === 1) {
+                            const primeiroDoMes = new Date(2026, janelaMesAtual, 1);
+                            janelaSemanaInicio = semanaContendoDia(diaAbsolutoDeData(primeiroDoMes));
+                        } else if (zoomNivel === 2) {
+                            const segunda = segundaOfWeek(janelaSemanaInicio);
+                            janelaDiasInicio = Math.max(0, Math.min(334, diaAbsolutoDeData(segunda)));
+                        } else if (zoomNivel === 3) {
+                            janelaDiasInicio = Math.max(0, Math.min(334, diaAbsolutoDeData(new Date())));
+                        }
+                        zoomNivel = zoomNivel === 3 ? 4 : Math.min(4, zoomNivel + 1);
+                    }
+                    vistaAgendaDiaria = (zoomNivel === 4);
+                    atualizarZoomUI();
+                    renderizarCronograma();
+                }
+            };
+            function navPrev() {
+                if (zoomNivel === 1) { janelaMesAtual = Math.max(0, janelaMesAtual - 1); }
+                else if (zoomNivel === 2) { janelaSemanaInicio = Math.max(0, janelaSemanaInicio - 1); }
+                else if (zoomNivel >= 3) { janelaDiasInicio = Math.max(0, janelaDiasInicio - (zoomNivel === 4 ? 1 : 3)); }
+                else if (container) container.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+                if (zoomNivel >= 1 && zoomNivel <= 4) { atualizarZoomUI(); renderizarCronograma(); }
+            }
+            function navNext() {
+                if (zoomNivel === 1) { janelaMesAtual = Math.min(11, janelaMesAtual + 1); }
+                else if (zoomNivel === 2) { janelaSemanaInicio = Math.min(47, janelaSemanaInicio + 1); }
+                else if (zoomNivel >= 3) { janelaDiasInicio = Math.min(334, janelaDiasInicio + (zoomNivel === 4 ? 1 : 3)); }
+                else if (container) container.scrollBy({ left: scrollStep, behavior: 'smooth' });
+                if (zoomNivel >= 1 && zoomNivel <= 4) { atualizarZoomUI(); renderizarCronograma(); }
+            }
+            if (ganttCont && vistaPrincipal === 'gantt') {
+                let dragStartX = 0, dragLastX = 0, dragAccum = 0;
+                const DRAG_THRESHOLD = 50;
+                ganttCont.addEventListener('mousedown', e => {
+                    if (e.button !== 0) return;
+                    if (e.target.closest('.gantt-barra')) return;
+                    if (zoomNivel >= 1 && zoomNivel <= 4) {
+                        dragStartX = e.clientX;
+                        dragLastX = e.clientX;
+                        dragAccum = 0;
+                        ganttCont.classList.add('gantt-dragging');
+                        ganttCont.style.cursor = 'grabbing';
+                    }
+                });
+                ganttCont.addEventListener('mousemove', e => {
+                    if (!ganttCont.classList.contains('gantt-dragging')) return;
+                    const dx = e.clientX - dragLastX;
+                    dragLastX = e.clientX;
+                    dragAccum += dx;
+                    while (dragAccum > DRAG_THRESHOLD) { navNext(); dragAccum -= DRAG_THRESHOLD; }
+                    while (dragAccum < -DRAG_THRESHOLD) { navPrev(); dragAccum += DRAG_THRESHOLD; }
+                });
+                const endDrag = () => {
+                    ganttCont.classList.remove('gantt-dragging');
+                    ganttCont.style.cursor = '';
+                };
+                ganttCont.addEventListener('mouseup', endDrag);
+                ganttCont.addEventListener('mouseleave', endDrag);
+            }
+            document.getElementById('gantt-scroll-hoje').onclick = () => {
+                const hoje = new Date();
+                const inicioAno = new Date(2026, 0, 1);
+                const diaHoje = Math.floor((hoje - inicioAno) / (24*60*60*1000));
+                vistaPrincipal = 'gantt';
+                document.querySelectorAll('.gantt-vista-principal').forEach(b => b.classList.remove('ativa'));
+                document.querySelector('.gantt-vista-principal[data-vista="gantt"]')?.classList.add('ativa');
+                vistaAgendaDiaria = true;
+                zoomNivel = 4;
+                janelaDiasInicio = Math.max(0, Math.min(334, diaHoje));
+                atualizarZoomUI();
+                renderizarCronograma();
+            };
+        }
+        function bindFiltros() {
+            document.getElementById('filtro-busca').oninput = () => { filtros.busca = document.getElementById('filtro-busca').value; renderizarCronograma(); };
+            const fib = document.getElementById('filtro-bib-busca');
+            if (fib) fib.oninput = () => { filtros.bibBusca = fib.value; renderizarBiblioteca(); };
+            document.getElementById('filtro-etapa').onchange = () => { filtros.etapa = document.getElementById('filtro-etapa').value; renderizarCronograma(); };
+            document.getElementById('filtro-status').onchange = () => { filtros.status = document.getElementById('filtro-status').value; renderizarCronograma(); };
+            document.getElementById('filtro-responsavel').onchange = () => { filtros.responsavel = document.getElementById('filtro-responsavel').value; renderizarCronograma(); };
+        }
+        function atualizarFiltrosSelect() {
+            const responsaveis = [...new Set(TAREFAS.map(t => (obterGantt(t.id).responsavel || '').trim()).filter(Boolean))];
+            document.getElementById('filtro-responsavel').innerHTML = '<option value="">Todos responsáveis</option>' + responsaveis.map(r => `<option value="${r}">${r}</option>`).join('');
+            document.getElementById('filtro-status').innerHTML = '<option value="">Todos status</option>' + STATUS_LISTA.map(s => `<option value="${s}">${STATUS_LABELS[s]}</option>`).join('');
+        }
+        document.getElementById('theme-toggle').onclick = () => {
+            temaEscuro = !temaEscuro;
+            document.body.classList.toggle('light', !temaEscuro);
+            document.getElementById('theme-toggle').textContent = temaEscuro ? '☀️ Claro' : '🌙 Escuro';
+            salvar();
+        };
+        document.addEventListener('keydown', e => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 't' || e.key === 'T') { temaEscuro = !temaEscuro; document.body.classList.toggle('light', !temaEscuro); document.getElementById('theme-toggle').textContent = temaEscuro ? '☀️ Claro' : '🌙 Escuro'; salvar(); }
+            if (e.key >= '1' && e.key <= '7') {
+                const abas = ['biblioteca','cronograma','dia-evento','time','orcamento','ativacoes','historico'];
+                const idx = parseInt(e.key) - 1;
+                if (abas[idx]) document.querySelector(`.aba[data-aba="${abas[idx]}"]`).click();
+            }
+        });
+
+        try {
+        carregar();
+        document.body.dataset.build = 'cal-v2';
+        if (zoomNivel === 0) zoomNivel = 1;
+        document.body.classList.toggle('light', !temaEscuro);
+        document.getElementById('theme-toggle').textContent = temaEscuro ? '☀️ Claro' : '🌙 Escuro';
+        atualizarSelectPrereq();
+        bindFiltros();
+        bindGanttNav();
+        bindCronogramaSidebar();
+        atualizarFiltrosSelect();
+        renderizarListaTarefas();
+        renderizarCronograma();
+        renderizarBiblioteca();
+        renderizarResumo();
+        renderizarKPIs();
+        renderizarOrcamento();
+        renderizarAtivacoes();
+        bindOrcamentoTabs();
+        } catch (err) {
+            console.error('Erro ao iniciar Kanban:', err);
+            const alerta = document.getElementById('alertas-box');
+            if (alerta) alerta.innerHTML = '<div class="alerta aviso" style="padding:12px">Erro ao carregar: ' + (err.message || err) + '</div>';
+        }
+    </script>
+
+
+</body></html>

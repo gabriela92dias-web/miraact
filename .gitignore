@@ -1,0 +1,33 @@
+# Dependências e caches
+node_modules/
+.npm
+*.log
+npm-debug.log*
+
+# IDE e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build e output
+dist/
+build/
+*.min.js
+*.min.css
+
+# Ambiente e secrets
+.env
+.env.local
+.env.*.local
+
+# Temporários
+*.tmp
+*.temp
+.cache/

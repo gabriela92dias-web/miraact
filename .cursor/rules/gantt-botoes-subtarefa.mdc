@@ -1,0 +1,42 @@
+---
+description: Parâmetros aprovados — botões Gantt, subtarefa, header, milestones
+globs: **/app.js,**/estilos.css,**/integracao-funcional.html
+alwaysApply: false
+---
+
+# Gantt — Botões e fluxo de subtarefa (parâmetros aprovados)
+
+Referência: [Botões Gantt e subtarefas](57617f62-b1bf-4757-945d-84d4663fb1cc)
+
+## Linhas de tarefa principal
+
+- **Dois botões:** exibir (▶/▼) + adicionar (+)
+- **Independentes:** um não oculta o outro
+- **Sempre visíveis:** mesmo com a linha expandida
+- **Fonte menor:** `font-size: 0.75rem` no +, `0.7rem` no expandir
+
+## Linhas de subtarefa
+
+- **Nenhum botão:** nem exibir nem adicionar
+
+## Header (coluna Tarefas)
+
+- **Label:** "Tarefas" (não "Task name")
+- **Alinhamento:** à direita
+- **Botão +:** verde e circular
+- **Tooltip:** "nova tarefa principal" ao passar o mouse
+- **Cor do +:** verde; fundo mantém o padrão
+
+## Fluxo ao clicar no +
+
+- **Não criar imediatamente** com "New task"
+- **Abrir o modal** "Nomear a nova subtarefa"
+- **Campo de texto** para digitar o nome
+- **Botão "Criar"** para criar a subtarefa
+- **Interceptor de clique** em fase de captura para impedir que o DHTMLX crie a tarefa antes do modal
+
+## Milestones
+
+- **Checkbox "É milestone"** no modal de nomear subtarefa
+- **Visual:** losango (diamante) em vez de barra
+- **Filtro:** "Apenas milestones" na barra lateral

@@ -1,0 +1,35 @@
+---
+description: Proteção do escopo aprovado da página — não alterar funcionalidade aprovada sem pedido explícito
+alwaysApply: true
+---
+
+# Escopo aprovado — proteção geral
+
+A página (app.js, estilos.css, integracao-funcional.html) tem um **escopo aprovado**: a funcionalidade está a correr como pretendido e não deve ser alterada ao desenvolver novo material ou outras partes do projeto.
+
+## Regra principal
+
+- **Não modificar** o comportamento, a estrutura ou o estilo do que está aprovado em `app.js`, `estilos.css` ou `integracao-funcional.html`, **a menos que o utilizador peça explicitamente** para alterar essa funcionalidade ou esse ficheiro.
+- Ao trabalhar em **novo material**, novas vistas ou novas funcionalidades: fazer alterações em ficheiros novos ou em zonas claramente novas; evitar refactors ou “melhorias” em código aprovado que não tenham sido pedidos.
+
+## O que está protegido (exemplos)
+
+- Vista semanal: grelha, barras multidia, drag & drop, resize (handle esquerdo e direito), preview e nota de arraste.
+- Vista mensal e dia: calendário FullCalendar, eventos, drag, resize, notas.
+- Vista anual: timeline, itens, drag.
+- Notas flutuantes (resize-note): padrão único, centralização, posicionamento.
+- Botões, abas, filtros, modais e estilos gerais já aprovados.
+- Lógica de tarefas, Gantt, persistência, histórico.
+
+## Backup de restauro
+
+- Cópia do estado aprovado em **`_ESCOPO_APROVADO_/`**: `app.js`, `estilos.css`, `integracao-funcional.html`.
+- Em caso de alterações indesejadas, copiar esses ficheiros de volta para a raiz do projeto para restaurar o estado aprovado.
+
+## Quando pode alterar
+
+- O utilizador pede explicitamente para mudar uma funcionalidade, um ficheiro ou o escopo aprovado.
+- O utilizador pede uma correção de bug numa parte aprovada (nesse caso, alterar só o necessário para o bug).
+- O utilizador diz que quer “reabrir” ou “alterar” o escopo aprovado.
+
+Referência: `ESCOPO_APROVADO.md` na raiz do projeto.

@@ -1,0 +1,55 @@
+---
+description: Proteção do arrastar/soltar e esticar (resize) das tarefas
+globs: **/*Kanban*.html,**/Kanban*.html
+alwaysApply: false
+---
+
+# Arrastar/Soltar e Resize — Regra de Proteção
+
+O arrastar-e-soltar (drag-and-drop) e o esticar (resize) das tarefas são **funcionalidades críticas** que não podem ser quebradas por alterações de layout ou CSS.
+
+## Componentes que NUNCA podem ser removidos ou quebrados
+
+### 1. Drag-and-drop das barras
+- `barra.draggable = true` — deve ser definido em toda barra de tarefa
+- `barra.ondragstart` — seta `window._arrastandoTaskId`, `e.dataTransfer.setData('text/plain', taskId)`
+- `barra.ondragend` — limpa `window._arrastandoTaskId` e `.drop-data-over`
+- `setupDraggableTask(el, taskId)` — usa `if (window._resizing) { e.preventDefault(); return; }` para não conflitar com resize
+
+### 2. Zonas de drop (setupDropZoneData)
+- Células/células do grid com `data-abs` (dia absoluto) e opcionalmente `data-hora`
+- `el.ondragover` — `e.preventDefault()`, `e.dataTransfer.dropEffect = 'move'`, `el.classList.add('drop-data-over')`
+- `el.ondragleave` — remove `drop-data-over`
+- `el.ondrop` — chama `moverTarefaParaData(id, abs, hora)` via `requerAgenteCadastrado`
+- `setupBarDropForward(barra, taskId)` — permite soltar sobre outra barra (forward para célula sob o cursor)
+
+### 3. Resize horizontal (esticar barra)
+- `setupResizeHorizontal(barra, taskId)` — obrigatório em barras de vista semanal/mensal
+- Handle: `barra.querySelector('.resize-handle-right')` — o HTML da barra deve incluir `<span class="resize-handle resize-handle-right"></span>`
+- `handle.onmousedown` — `e.stopPropagation()`, `e.stopImmediatePropagation()`, `window._resizing = true`
+- Cálculo: `deltaSemanas = (dx / cellBarra.offsetWidth) * 7` — proporção pixel↔semanas
+- `g.duracaoSemanas` atualizado; `sincronizarMesDeSemana(g)`; `salvar()`; `renderizarCronograma()`
+
+### 4. Resize vertical (agenda diária)
+- `setupResizeVertical(barra, taskId)` — para barras em `.agenda-tarefas-overlay` ou `.vista-semana-grid-turnos`
+- Handle: `barra.querySelector('.resize-handle-bottom')`
+- Atualiza `g.duracaoHoras`
+
+### 5. CSS necessário
+- `.gantt-barra .resize-handle` — `pointer-events: auto; z-index: 10`
+- `.gantt-barra .resize-handle-right` — `position: absolute; right: 0; cursor: ew-resize; width: 16px`
+- `.gantt-barra .resize-handle-bottom` — `position: absolute; bottom: 0; cursor: ns-resize; height: 12px`
+- Elementos drop target: `position: relative` e área clicável sem `pointer-events: none` cobrindo
+
+### 6. O que NUNCA fazer
+- ❌ Colocar `pointer-events: none` em `.gantt-barra` (a barra precisa receber drag)
+- ❌ Cobrir o resize-handle com outro elemento (ex: botão verde `cell-add-btn`) que capture o mousedown
+- ❌ Remover `setupResizeHorizontal` ou `setupResizeVertical` das barras
+- ❌ Remover `data-abs` das células que são drop zones
+- ❌ Chamar `e.stopPropagation()` em elementos pais de forma a bloquear o bubble do mousedown no handle
+
+### 7. Ordem de attach
+Cada barra deve ter, após criação:
+1. `setupDraggableTask(barra, taskId)` ou `barra.draggable = true` + ondragstart/ondragend
+2. `setupBarDropForward(barra, taskId)` ou `setupDropZoneData` nas células
+3. `setupResizeHorizontal(barra, taskId)` e/ou `setupResizeVertical(barra, taskId)` conforme a vista

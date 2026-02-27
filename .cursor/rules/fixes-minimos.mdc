@@ -1,0 +1,27 @@
+---
+description: Princípios para correções — alcance mínimo e respeito ao que já funciona
+globs: **/integracao-funcional.html,**/app.js,**/estilos.css
+alwaysApply: false
+---
+
+# Correções: princípios
+
+## 1. Alcance mínimo
+
+Corrigir **só o que causa o bug**. Não refatorar, não “melhorar” e não alterar handlers, vistas ou fluxos que não fazem parte do problema.
+
+## 2. Respeitar fronteiras
+
+Cada mecanismo tem uma responsabilidade (ex.: um handler para esticar, outro para arrastar; uma lógica para a nota, outra para o drop). **Não “consertar” A mudando a lógica de B** se B já funciona. Corrigir no lugar certo.
+
+## 3. Preservar o que já funciona
+
+Não alterar comportamento aprovado ou estável para contornar um bug. Identificar a causa no fluxo afetado e corrigir ali.
+
+## 4. Uma preocupação por alteração
+
+Ao corrigir um problema (ex.: arraste em uma vista), não aproveitar para ajustar outro (ex.: posição da nota, resize, outra vista). Mudanças separadas = revisão e rollback mais seguros.
+
+---
+
+**Em dúvida:** a alteração toca só no fluxo/vista/componente que está sendo corrigido?
