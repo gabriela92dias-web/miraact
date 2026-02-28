@@ -1,0 +1,25 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriela92dias-web/miraact.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriela92dias-web/miraact/issues"
+  },
+  "homepage": "https://github.com/gabriela92dias-web/miraact#readme",
+  "devDependencies": {
+    "html-validate": "^10.9.0",
+    "htmlhint": "^1.9.1",
+    "serve": "^14.2.5"
+  }
+}
